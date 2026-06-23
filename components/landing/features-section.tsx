@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 
 // const features = [
 //   {
@@ -485,61 +486,85 @@ function AnimatedVisual({ type }: { type: string }) {
   }
 }
 
-function FeatureCard({ feature, index }: { feature: typeof features[0]; index: number }) {
-  const [isVisible, setIsVisible] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
+const STACK_OFFSET_PX = 14;
+const STICK_BASE_PX = 96;
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setIsVisible(true);
-      },
-      { threshold: 0.2 }
-    );
+function FeatureCard({
+  feature,
+  index,
+  progress,
+  totalSteps,
+}: {
+  feature: typeof features[0];
+  index: number;
+  progress: MotionValue<number>;
+  totalSteps: number;
+}) {
+  const startProgress = (index + 1) / totalSteps;
+  const endProgress = 1;
 
-    if (cardRef.current) observer.observe(cardRef.current);
-    return () => observer.disconnect();
-  }, []);
+  const overlayOpacity = useTransform(
+    progress,
+    [startProgress, endProgress],
+    [0, 0.7]
+  );
 
   return (
     <div
-      ref={cardRef}
-      className={`group relative transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-        }`}
-      style={{ transitionDelay: `${index * 100}ms` }}
+      className="lg:sticky"
+      style={{
+        top: `calc(${STICK_BASE_PX}px + ${index * STACK_OFFSET_PX}px)`,
+        zIndex: 10 + index,
+      }}
     >
-      <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 py-12 lg:py-20 border-b border-foreground/10">
-        {/* Number */}
-        <div className="shrink-0">
-          <span className="font-mono text-sm text-muted-foreground">{feature.number}</span>
-        </div>
-
-        {/* Content */}
-        <div className="flex-1 grid lg:grid-cols-2 gap-8 items-center">
-          <div>
-            <h3 className="text-3xl lg:text-4xl font-display mb-4 group-hover:translate-x-2 transition-transform duration-500">
-              {feature.title}
-            </h3>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              {feature.description}
-            </p>
+      <motion.article
+        className="group relative overflow-hidden rounded-3xl border border-foreground/10 bg-background/95 backdrop-blur shadow-xl transition-colors duration-300"
+      >
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 py-12 lg:py-20 px-8 lg:px-12">
+          {/* Number */}
+          <div className="shrink-0">
+            <span className="font-mono text-sm text-muted-foreground">{feature.number}</span>
           </div>
 
-          {/* Visual */}
-          <div className="flex justify-center lg:justify-end">
-            <div className="w-48 h-40 text-foreground">
-              <AnimatedVisual type={feature.visual} />
+          {/* Content */}
+          <div className="flex-1 grid lg:grid-cols-2 gap-8 items-center">
+            <div>
+              <h3 className="text-3xl lg:text-4xl font-display mb-4 group-hover:translate-x-2 transition-transform duration-500">
+                {feature.title}
+              </h3>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                {feature.description}
+              </p>
+            </div>
+
+            {/* Visual */}
+            <div className="flex justify-center lg:justify-end">
+              <div className="w-48 h-40 text-foreground">
+                <AnimatedVisual type={feature.visual} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+        
+        {/* Darkening overlay to simulate depth */}
+        <motion.div
+          style={{ opacity: overlayOpacity }}
+          className="pointer-events-none absolute inset-0 bg-background/80"
+        />
+      </motion.article>
     </div>
   );
 }
 
 export function FeaturesSection() {
   const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -577,9 +602,15 @@ export function FeaturesSection() {
         </div>
 
         {/* Features List */}
-        <div>
+        <div ref={containerRef} className="mt-10 space-y-6 pb-4 sm:mt-14 lg:space-y-0">
           {features.map((feature, index) => (
-            <FeatureCard key={feature.number} feature={feature} index={index} />
+            <FeatureCard
+              key={feature.number}
+              feature={feature}
+              index={index}
+              progress={scrollYProgress}
+              totalSteps={features.length}
+            />
           ))}
         </div>
       </div>

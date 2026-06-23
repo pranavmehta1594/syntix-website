@@ -1,241 +1,206 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 
 const processSteps = [
   {
-    id: "01",
-    title: "Discovery",
-    tag: "Research & Domain Analysis",
+    index: "01",
+    total: "04",
+    title: "Strategy",
     description:
-      "Don't ignore the crucial step of Research & Development in the UX Design Process! Discover and solve user problems to launch a successful product. Gather data on the target audience and analyze customer feedback. Improve user experience.",
-    image: "https://zeeframes.com/frontend-assets/images/home-process-mob-1.webp",
+      "We get to know you and your brand. Goals, audience, competition. Out of that comes the roadmap everything else stands on.",
+    deliverables: [
+      "Briefing & Workshop",
+      "Competitor Analysis",
+      "Brand Strategy",
+      "Roadmap",
+    ],
+    image: "/process/strategy.avif",
+    alt: "Strategy",
   },
   {
-    id: "02",
-    title: "Flows",
-    tag: "User Journey Map Sitemap",
+    index: "02",
+    total: "04",
+    title: "Design",
     description:
-      "Create successful user flows for your product in the UX design process by mapping user journeys and interactions. Define product ideas and goals, tailored to user needs, behavior, and expectations. Test with real users for optimization.",
-    image: "https://zeeframes.com/frontend-assets/images/home-process-mob-2.webp",
+      "Identity, interface, prototype. This is where the brand becomes visible - from logo to the last pixel of the site.",
+    deliverables: [
+      "Brand Identity",
+      "Wireframes & UX",
+      "UI Design",
+      "Design System",
+    ],
+    image: "/process/design.avif",
+    alt: "Design",
   },
   {
-    id: "03",
-    title: "Wireframes",
-    tag: "Low - Fidelity Design",
+    index: "03",
+    total: "04",
+    title: "Build",
     description:
-      "Define the content and functionality of your product with wireframes in the UX Design process. Brainstorm multiple ideas, get feedback, and refine for high fidelity wireframes. Enhance the user interface for a natural and intuitive look.",
-    image: "https://zeeframes.com/frontend-assets/images/home-process-mob-3.webp",
+      "Engineering on a modern stack: Next.js, React, performance-first. Clean code that scales and still runs in five years.",
+    deliverables: [
+      "Frontend & CMS",
+      "Backend / API",
+      "Performance & SEO",
+      "QA & Testing",
+    ],
+    image: "/process/build.avif",
+    alt: "Build",
   },
   {
-    id: "04",
-    title: "Mockups",
-    tag: "High - Fidelity Design",
+    index: "04",
+    total: "04",
+    title: "Launch & Care",
     description:
-      "Visualize your product's appearance with mockups in the UX Design. Detailed design for every screen gets reviewed by stakeholders and the design team. Get it tested with users for improved design based on their needs and expectations.",
-    image: "https://zeeframes.com/frontend-assets/images/home-process-mob-4.webp",
+      "Deployment, monitoring, continuous optimization. We stay on it - your brand grows, and we grow with it.",
+    deliverables: [
+      "Go-Live",
+      "Analytics",
+      "Maintenance & Updates",
+      "Iteration & Growth",
+    ],
+    image: "/process/launch-care.avif",
+    alt: "Launch & Care",
   },
-  {
-    id: "05",
-    title: "Prototyping",
-    tag: "Interaction Design",
-    description:
-      "UX Designers create clickable prototypes for your product using tools like Invision to assess product functionality. Gather user feedback and collaborate with development team to create improved version of the design for implementation.",
-    image: "https://zeeframes.com/frontend-assets/images/home-process-mob-5.webp",
-  },
-  {
-    id: "06",
-    title: "Testing",
-    tag: "Usability Testing",
-    description:
-      "UX designers focus on improving product usability by testing with real users. Define the testing goals and scenarios and recruit a target audience. Conduct usability tests, analyze results, and make changes for optimal user experience.",
-    image: "https://zeeframes.com/frontend-assets/images/home-process-mob-6.webp",
-  },
-];
+] as const;
 
-export function ProcessSection() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const stepRefs = useRef<Array<HTMLElement | null>>([]);
+// Visible "deck" offset between stacked cards on desktop, in px.
+const STACK_OFFSET_PX = 14;
 
-  const activeStep = processSteps[activeIndex];
-  const scrollTrackHeight = useMemo(
-    () => `${processSteps.length * 100}vh`,
-    [],
+// Where the stack should sit in the viewport before cards start
+// overlapping. Adjust to match your fixed header height.
+const STICK_BASE_PX = 96;
+
+function ProcessCard({
+  step,
+  index,
+  progress,
+  totalSteps,
+}: {
+  step: (typeof processSteps)[number];
+  index: number;
+  progress: MotionValue<number>;
+  totalSteps: number;
+}) {
+  // A card starts scaling/darkening only when the NEXT card starts covering it.
+  const startProgress = (index + 1) / totalSteps;
+  const endProgress = 1;
+
+  const overlayOpacity = useTransform(
+    progress,
+    [startProgress, endProgress],
+    [0, 0.7]
   );
 
-  useEffect(() => {
-    const updateActiveStep = () => {
-      const sectionEl = sectionRef.current;
-      if (!sectionEl) return;
+  return (
+    <div
+      className="lg:sticky"
+      style={{
+        top: `calc(${STICK_BASE_PX}px + ${index * STACK_OFFSET_PX}px)`,
+        zIndex: 10 + index,
+      }}
+    >
+      <motion.article
 
-      const sectionRect = sectionEl.getBoundingClientRect();
-      const sectionTop = window.scrollY + sectionRect.top;
-      const sectionHeight = sectionEl.offsetHeight;
-      const viewportHeight = window.innerHeight;
-      const stickyHeight = viewportHeight;
-      const availableScroll = Math.max(sectionHeight - stickyHeight, 1);
-      const progress = Math.min(
-        Math.max((window.scrollY - sectionTop) / availableScroll, 0),
-        1,
-      );
+        className="
+          relative overflow-hidden border border-white/10 bg-[#141416]
+          shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_40px_80px_-24px_rgba(0,0,0,0.7)]
+          transition-colors duration-300
+          lg:grid lg:h-[480px] lg:grid-cols-2
+        "
+      >
+        <div className="relative overflow-hidden bg-[#111111]">
+          <img
+            src={step.image}
+            alt={step.alt}
+            className="h-full w-full object-cover"
+            loading={index === 0 ? "eager" : "lazy"}
+            decoding="async"
+          />
+        </div>
 
-      const nextIndex = Math.min(
-        processSteps.length - 1,
-        Math.floor(progress * processSteps.length),
-      );
+        <div className="flex min-w-0 flex-col justify-center px-6 py-8 sm:px-9">
+          <span className="font-mono text-sm uppercase tracking-[0.2em] text-[#c9e265]">
+            {step.index}
+            <span className="mx-1 text-white/30">/</span>
+            {step.total}
+          </span>
 
-      setActiveIndex(nextIndex);
-    };
+          <h3 className="mt-4 text-[clamp(2rem,3.6vw,4.2rem)] font-display leading-[0.92] tracking-[-0.045em] text-white">
+            {step.title}
+          </h3>
 
-    updateActiveStep();
-    window.addEventListener("scroll", updateActiveStep, { passive: true });
-    window.addEventListener("resize", updateActiveStep);
+          <p className="mt-5 max-w-[50ch] text-sm leading-7 text-white/70 sm:text-base sm:leading-8">
+            {step.description}
+          </p>
 
-    return () => {
-      window.removeEventListener("scroll", updateActiveStep);
-      window.removeEventListener("resize", updateActiveStep);
-    };
-  }, []);
+          <ul className="mt-7 flex flex-wrap gap-x-7 gap-y-2 p-0">
+            {step.deliverables.map((deliverable) => (
+              <li
+                key={deliverable}
+                className="inline-flex items-center gap-2 font-mono text-[0.74rem] uppercase tracking-[0.04em] text-white/52"
+              >
+                <span
+                  className="h-1 w-1 shrink-0 rounded-full bg-white/30"
+                  aria-hidden="true"
+                />
+                {deliverable}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Darkening overlay to simulate depth without making the card transparent */}
+        <motion.div
+          style={{ opacity: overlayOpacity }}
+          className="pointer-events-none absolute inset-0 bg-[#090909]"
+        />
+      </motion.article>
+    </div>
+  );
+}
+
+export function ProcessSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    // Track from when the top of the section hits the top of the viewport
+    // to when the bottom of the section hits the bottom of the viewport
+    offset: ["start start", "end end"],
+  });
 
   return (
     <section
-      ref={sectionRef}
-      className="relative bg-[#090909] text-white"
-      style={{ height: scrollTrackHeight }}
+      id="process"
+      ref={containerRef}
+      className="relative border-t border-white/10 bg-[#090909] text-white"
     >
-      <div className="sticky top-0 h-screen overflow-hidden">
-        <div className="container h-full">
-          <div className="flex h-full flex-col justify-center py-16">
-            <div className="mx-auto max-w-[596px] text-center">
-              <p className="text-sm font-medium uppercase tracking-[0.24em] text-white/55">
-                Our process, Your Advantage
-              </p>
-              <h2 className="mt-4 text-4xl font-display leading-tight tracking-tight text-white sm:text-5xl">
-                From Idea To Execution
-              </h2>
-              <p className="mt-4 text-sm leading-6 text-white/55 sm:text-base">
-                We have become experts in creating top-notch digital products.
-                We design beautifully and develop excellently. And we care
-                deeply about what we do.
-              </p>
-            </div>
+      <div className="mx-auto max-w-[1600px] px-5 py-8 sm:px-6 sm:py-12 lg:px-10 lg:py-16">
+        <header className="max-w-4xl">
+          <p className="flex items-center gap-3 text-xs uppercase tracking-[0.24em] text-white/55 sm:text-sm">
+            <span className="h-px w-6 bg-[#c9e265]" aria-hidden="true" />
+            <span className="font-mono text-white/70">[04]</span>
+            <span>Process / How we work</span>
+          </p>
+          <h2 className="mt-5 text-[clamp(2.6rem,4.8vw,5.5rem)] font-display leading-[0.94] tracking-[-0.05em] text-white">
+            From <em className="font-display italic text-[#c9e265]">briefing</em>{" "}
+            to <em className="font-display italic text-[#c9e265]">launch.</em>
+          </h2>
+        </header>
 
-            <div className="mt-10 grid min-h-0 flex-1 gap-12 lg:mt-14 lg:grid-cols-[minmax(0,1fr)_minmax(420px,527px)] lg:gap-16">
-              <div className="relative min-h-0 overflow-hidden">
-                <div className="absolute left-[11px] top-0 bottom-0 w-px bg-white/20" />
-                <div
-                  className="absolute left-[11px] top-0 w-px bg-[#f4f45b] transition-[height] duration-300"
-                  style={{
-                    height: `${((activeIndex + 1) / processSteps.length) * 100}%`,
-                  }}
-                  aria-hidden="true"
-                />
-
-                <div className="space-y-0">
-                  {processSteps.map((step, index) => {
-                    const isActive = index === activeIndex;
-
-                    return (
-                      <article
-                        key={step.id}
-                        ref={(el) => {
-                          stepRefs.current[index] = el;
-                        }}
-                        className="relative min-h-[calc(100vh-11rem)] border-l border-white/10 py-10 pl-6 lg:min-h-[calc(100vh-12rem)] lg:py-14 lg:pl-14"
-                      >
-                        <span
-                          className={`absolute -left-[35px] top-12 hidden h-5 w-5 rounded-full border transition-all duration-300 lg:block ${
-                            isActive
-                              ? "border-[#f4f45b] bg-[#f4f45b] shadow-[0_0_0_6px_rgba(244,244,91,0.12)]"
-                              : "border-white/25 bg-[#090909]"
-                          }`}
-                          aria-hidden="true"
-                        />
-
-                        <div
-                          className="cursor-pointer"
-                          role="button"
-                          tabIndex={0}
-                          onClick={() => setActiveIndex(index)}
-                          onKeyDown={(event) => {
-                            if (event.key === "Enter" || event.key === " ") {
-                              setActiveIndex(index);
-                            }
-                          }}
-                        >
-                          <span className="mb-3 block text-sm font-medium text-white/75">
-                            {step.id}
-                          </span>
-                          <h3
-                            className={`text-[clamp(2.4rem,4.2vw,4.2rem)] font-display leading-[0.92] tracking-tight transition-colors duration-300 ${
-                              isActive ? "text-white" : "text-white/40"
-                            }`}
-                          >
-                            {step.title}
-                          </h3>
-                          <h4
-                            className={`mt-4 text-lg transition-colors duration-300 sm:text-2xl ${
-                              isActive ? "text-white/60" : "text-white/38"
-                            }`}
-                          >
-                            {step.tag}
-                          </h4>
-                          <p
-                            className={`mt-6 max-w-[620px] text-base leading-8 transition-colors duration-300 sm:text-lg ${
-                              isActive ? "text-white/85" : "text-white/48"
-                            }`}
-                          >
-                            {step.description}
-                          </p>
-                        </div>
-                      </article>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div className="relative hidden lg:block">
-                <div className="sticky top-1/2 -translate-y-1/2 overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#111111] shadow-[0_30px_80px_rgba(0,0,0,0.45)]">
-                  <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
-                    <div className="flex gap-2">
-                      <span className="h-3 w-3 rounded-full bg-white/20" />
-                      <span className="h-3 w-3 rounded-full bg-white/20" />
-                      <span className="h-3 w-3 rounded-full bg-white/20" />
-                    </div>
-                    <span className="text-xs font-mono uppercase tracking-[0.2em] text-white/40">
-                      process
-                    </span>
-                  </div>
-                  <div className="p-4">
-                    <div className="overflow-hidden rounded-[1rem]">
-                      <img
-                        key={activeStep.image}
-                        src={activeStep.image}
-                        alt={activeStep.title}
-                        className="h-[520px] w-full object-cover transition-opacity duration-500"
-                        loading="eager"
-                        decoding="async"
-                      />
-                    </div>
-                    <div className="mt-5 flex items-center justify-between gap-4 px-1">
-                      <div>
-                        <div className="text-sm font-medium uppercase tracking-[0.2em] text-white/45">
-                          {activeStep.id}
-                        </div>
-                        <div className="mt-1 text-2xl font-display tracking-tight text-white">
-                          {activeStep.title}
-                        </div>
-                      </div>
-                      <div className="max-w-[220px] text-right text-sm leading-6 text-white/55">
-                        {activeStep.tag}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div className="mt-10 space-y-6 pb-4 sm:mt-14 lg:space-y-0">
+          {processSteps.map((step, index) => (
+            <ProcessCard
+              key={step.index}
+              step={step}
+              index={index}
+              totalSteps={processSteps.length}
+              progress={scrollYProgress}
+            />
+          ))}
         </div>
       </div>
     </section>

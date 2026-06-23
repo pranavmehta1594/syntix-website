@@ -3,18 +3,54 @@
 import { useEffect, useState, useRef } from "react";
 
 const integrations = [
-  { name: "GitHub", category: "Version Control" },
-  { name: "Slack", category: "Communication" },
-  { name: "Stripe", category: "Payments" },
-  { name: "PostgreSQL", category: "Database" },
-  { name: "Redis", category: "Cache" },
-  { name: "AWS", category: "Cloud" },
-  { name: "MongoDB", category: "Database" },
-  { name: "Vercel", category: "Hosting" },
-  { name: "Figma", category: "Design" },
-  { name: "Linear", category: "Project Management" },
-  { name: "Notion", category: "Documentation" },
-  { name: "OpenAI", category: "AI/ML" },
+  {
+    name: "Website Development",
+    category: "Next.js • React.js • Full Stack",
+  },
+  {
+    name: "Mobile App Development",
+    category: "Android • iOS • Cross Platform",
+  },
+  {
+    name: "UI/UX Design",
+    category: "Figma • Prototyping • Branding",
+  },
+  {
+    name: "Custom Software Development",
+    category: "Business Solutions",
+  },
+  {
+    name: "SaaS Product Development",
+    category: "Scalable Cloud Applications",
+  },
+  {
+    name: "Cloud Solutions",
+    category: "AWS • Azure • GCP",
+  },
+  {
+    name: "DevOps Services",
+    category: "CI/CD • Automation • Monitoring",
+  },
+  {
+    name: "SEO Optimization",
+    category: "Technical SEO • Local SEO",
+  },
+  {
+    name: "Digital Marketing",
+    category: "Growth & Lead Generation",
+  },
+  {
+    name: "E-Commerce Solutions",
+    category: "Shopify • WooCommerce",
+  },
+  {
+    name: "API Development",
+    category: "REST • GraphQL • Integrations",
+  },
+  {
+    name: "Maintenance & Support",
+    category: "24/7 Technical Assistance",
+  },
 ];
 
 export function IntegrationsSection() {
@@ -38,27 +74,26 @@ export function IntegrationsSection() {
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
         {/* Header */}
         <div
-          className={`text-center max-w-3xl mx-auto mb-16 lg:mb-24 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`text-center max-w-3xl mx-auto mb-16 lg:mb-24 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
             <span className="w-8 h-px bg-foreground/30" />
-            Integrations
+            Software development services
             <span className="w-8 h-px bg-foreground/30" />
           </span>
           <h2 className="text-4xl lg:text-6xl font-display tracking-tight mb-6">
-            Works with everything
-            <br />
-            you already use.
+            designed for growth.
           </h2>
           <p className="text-xl text-muted-foreground">
-            200+ pre-built integrations. Connect your entire stack in minutes.
+            Syntrix Technologies delivers website development, mobile apps,
+            SaaS platforms, cloud solutions, DevOps, SEO, and digital marketing
+            services for startups, enterprises, and growing businesses.
           </p>
         </div>
 
       </div>
-      
+
       {/* Full-width marquees outside container */}
       <div className="w-full mb-6">
         <div className="flex gap-6 marquee">
@@ -79,7 +114,7 @@ export function IntegrationsSection() {
           ))}
         </div>
       </div>
-      
+
       {/* Reverse marquee */}
       <div className="w-full">
         <div className="flex gap-6 marquee-reverse">

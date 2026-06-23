@@ -5,38 +5,56 @@ import { useEffect, useRef, useState } from "react";
 const steps = [
   {
     number: "I",
-    title: "Connect your tools",
-    description: "Integrate with your existing stack in minutes. We support 200+ data sources out of the box.",
-    code: `import { optimus } from '@optimus/core'
+    title: "Discovery & Strategy",
+    description:
+      "We understand your business goals, audience, and requirements to create a clear roadmap for your digital success.",
 
-optimus.connect({
-  source: 'your-database',
-  sync: true
-})`,
+    code: `// Project Discovery
+
+const project = {
+  businessGoals: true,
+  targetAudience: true,
+  competitorResearch: true,
+  roadmap: "approved"
+}
+
+console.log("Strategy Ready")`,
   },
+
   {
     number: "II",
-    title: "Build your workflow",
-    description: "Design powerful automations with our visual builder or write code directly.",
-    code: `optimus.workflow('process', {
-  trigger: 'event',
-  actions: [
-    'validate',
-    'transform', 
-    'deliver'
-  ]
-})`,
-  },
-  {
-    number: "III",
-    title: "Ship to production",
-    description: "Deploy globally with zero configuration. Your app goes live in under 30 seconds.",
-    code: `optimus.deploy({
-  target: 'production',
-  regions: 'auto'
+    title: "Design & Development",
+    description:
+      "Our team designs and develops modern websites, mobile apps, SaaS platforms, and custom software tailored to your needs.",
+
+    code: `// Development Phase
+
+build({
+  uiux: "modern",
+  frontend: "Next.js",
+  backend: "Node.js",
+  database: "MongoDB"
 })
 
-// Deployed to 12 regions`,
+console.log("In Development")`,
+  },
+
+  {
+    number: "III",
+    title: "Launch & Growth",
+    description:
+      "We deploy, optimize, and continuously support your product with cloud infrastructure, SEO, and digital growth strategies.",
+
+    code: `// Launch & Scale
+
+deploy({
+  cloud: "AWS",
+  monitoring: true,
+  seo: true,
+  analytics: true
+})
+
+console.log("Live & Growing")`,
   },
 ];
 
@@ -88,16 +106,16 @@ export function HowItWorksSection() {
         <div className="mb-16 lg:mb-24">
           <span className="inline-flex items-center gap-3 text-sm font-mono text-background/50 mb-6">
             <span className="w-8 h-px bg-background/30" />
-            Process
+             Our Process
           </span>
           <h2
             className={`text-4xl lg:text-6xl font-display tracking-tight transition-all duration-700 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            Three steps.
+            From idea to launch.
             <br />
-            <span className="text-background/50">Infinite possibilities.</span>
+            <span className="text-background/50">We build digital products that scale.</span>
           </h2>
         </div>
 

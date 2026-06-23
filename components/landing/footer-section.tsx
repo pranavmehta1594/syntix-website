@@ -4,35 +4,40 @@ import { ArrowUpRight } from "lucide-react";
 import { AnimatedWave } from "./animated-wave";
 
 const footerLinks = {
-  Product: [
-    { name: "Features", href: "#features" },
-    { name: "How it works", href: "#how-it-works" },
-    { name: "Pricing", href: "#pricing" },
-    { name: "Integrations", href: "#integrations" },
+  Services: [
+    { name: "Web Development", href: "#services" },
+    { name: "Mobile App Development", href: "#services" },
+    { name: "Custom Software", href: "#services" },
+    { name: "UI/UX Design", href: "#services" },
   ],
-  Developers: [
-    { name: "Documentation", href: "#developers" },
-    { name: "API Reference", href: "#" },
-    { name: "SDK", href: "#developers" },
-    { name: "Status", href: "#" },
+
+  Solutions: [
+    { name: "SaaS Development", href: "#solutions" },
+    { name: "Cloud Solutions", href: "#solutions" },
+    { name: "DevOps Services", href: "#solutions" },
+    { name: "E-Commerce Solutions", href: "#solutions" },
   ],
+
   Company: [
-    { name: "About", href: "#" },
-    { name: "Blog", href: "#" },
-    { name: "Careers", href: "#", badge: "Hiring" },
-    { name: "Contact", href: "#" },
+    { name: "About Us", href: "#about" },
+    { name: "Portfolio", href: "#portfolio" },
+    { name: "Careers", href: "#careers", badge: "Hiring" },
+    { name: "Contact", href: "#contact" },
   ],
-  Legal: [
-    { name: "Privacy", href: "#" },
-    { name: "Terms", href: "#" },
-    { name: "Security", href: "#security" },
+
+  Resources: [
+    { name: "Blog", href: "#blog" },
+    { name: "Case Studies", href: "#case-studies" },
+    { name: "Privacy Policy", href: "#privacy" },
+    { name: "Terms & Conditions", href: "#terms" },
   ],
 };
 
 const socialLinks = [
-  { name: "Twitter", href: "#" },
-  { name: "GitHub", href: "#" },
   { name: "LinkedIn", href: "#" },
+  { name: "GitHub", href: "#" },
+  { name: "Instagram", href: "#" },
+  { name: "X", href: "#" },
 ];
 
 export function FooterSection() {
@@ -42,7 +47,7 @@ export function FooterSection() {
       <div className="absolute inset-0 h-64 opacity-20 pointer-events-none overflow-hidden">
         <AnimatedWave />
       </div>
-      
+
       <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
         {/* Main Footer */}
         <div className="py-16 lg:py-24">
@@ -50,14 +55,14 @@ export function FooterSection() {
             {/* Brand Column */}
             <div className="col-span-2">
               <a href="#" className="inline-flex items-center gap-2 mb-6">
-                <span className="text-2xl font-display">Optimus</span>
+                <span className="text-2xl font-display">Syntrix Technologies</span>
                 <span className="text-xs text-muted-foreground font-mono">TM</span>
               </a>
-
               <p className="text-muted-foreground leading-relaxed mb-8 max-w-xs">
-                The platform for teams who ship. Build, deploy, and scale with unprecedented velocity.
+                Syntrix Technologies is a software development company specializing
+                in custom web applications, mobile app development, SaaS products,
+                cloud solutions, DevOps, SEO, and digital transformation services.
               </p>
-
               {/* Social Links */}
               <div className="flex gap-6">
                 {socialLinks.map((link) => (
@@ -102,13 +107,13 @@ export function FooterSection() {
         {/* Bottom Bar */}
         <div className="py-8 border-t border-foreground/10 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            2025 Optimus. All rights reserved.
+            © 2026 Syntrix Technologies. All rights reserved.
           </p>
 
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <span className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-green-500" />
-              All systems operational
+              Available for New Projects
             </span>
           </div>
         </div>
