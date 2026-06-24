@@ -5,31 +5,28 @@ import { AnimatedWave } from "./animated-wave";
 
 const footerLinks = {
   Services: [
-    { name: "Web Development", href: "#services" },
-    { name: "Mobile App Development", href: "#services" },
-    { name: "Custom Software", href: "#services" },
-    { name: "UI/UX Design", href: "#services" },
+    { name: "Web Development", href: "/services" },
+    { name: "Mobile App Development", href: "/services" },
+    { name: "Custom Software", href: "/services" },
+    { name: "UI/UX Design", href: "/services" },
   ],
-
   Solutions: [
-    { name: "SaaS Development", href: "#solutions" },
-    { name: "Cloud Solutions", href: "#solutions" },
-    { name: "DevOps Services", href: "#solutions" },
-    { name: "E-Commerce Solutions", href: "#solutions" },
+    { name: "SaaS Development", href: "/services" },
+    { name: "Cloud Solutions", href: "/services" },
+    { name: "DevOps Services", href: "/services" },
+    { name: "E-Commerce Solutions", href: "/services" },
   ],
-
   Company: [
-    { name: "About Us", href: "#about" },
-    { name: "Portfolio", href: "#portfolio" },
-    { name: "Careers", href: "#careers", badge: "Hiring" },
-    { name: "Contact", href: "#contact" },
+    { name: "About Us", href: "/about" },
+    { name: "Product", href: "/product" },
+    { name: "Careers", href: "/careers", badge: "Hiring" },
+    { name: "Contact", href: "/contact" },
   ],
-
   Resources: [
-    { name: "Blog", href: "#blog" },
+    { name: "FAQ", href: "/faq" },
     { name: "Case Studies", href: "#case-studies" },
-    { name: "Privacy Policy", href: "#privacy" },
-    { name: "Terms & Conditions", href: "#terms" },
+    { name: "Privacy Policy", href: "/privacy-policy" },
+    { name: "Terms & Conditions", href: "/terms" },
   ],
 };
 
@@ -54,7 +51,7 @@ export function FooterSection() {
           <div className="grid grid-cols-2 md:grid-cols-6 gap-12 lg:gap-8">
             {/* Brand Column */}
             <div className="col-span-2">
-              <a href="#" className="inline-flex items-center gap-2 mb-6">
+              <a href="/" className="inline-flex items-center gap-2 mb-6">
                 <span className="text-2xl font-display">Syntrix Technologies</span>
                 <span className="text-xs text-muted-foreground font-mono">TM</span>
               </a>
@@ -109,10 +106,12 @@ export function FooterSection() {
           <p className="text-sm text-muted-foreground">
             © 2026 Syntrix Technologies. All rights reserved.
           </p>
-
-          <div className="flex items-center gap-4 text-sm text-muted-foreground">
+          <div className="flex items-center gap-6 text-sm text-muted-foreground">
+            <a href="/privacy-policy" className="hover:text-foreground transition-colors">Privacy Policy</a>
+            <a href="/terms" className="hover:text-foreground transition-colors">Terms</a>
+            <a href="/faq" className="hover:text-foreground transition-colors">FAQ</a>
             <span className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-green-500" />
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
               Available for New Projects
             </span>
           </div>

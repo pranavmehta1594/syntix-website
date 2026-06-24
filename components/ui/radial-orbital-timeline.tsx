@@ -162,13 +162,44 @@ export default function RadialOrbitalTimeline({
 
   return (
     <div
-      className="w-full h-screen flex flex-col items-center justify-center bg-black overflow-hidden"
+      className="w-full min-h-screen flex flex-col lg:flex-row items-center justify-between bg-black overflow-hidden px-6 lg:px-20 py-20"
       ref={containerRef}
       onClick={handleContainerClick}
     >
-      <div className="relative w-full max-w-4xl h-full flex items-center justify-center">
+      {/* Left Content */}
+      <div className="w-full lg:w-5/12 max-w-2xl z-20 flex flex-col gap-6 pt-10 lg:pt-0 lg:ml-10">
+        <div className="inline-flex items-center gap-3 text-sm font-mono text-white/70">
+          <span className="w-8 h-px bg-white/30" />
+          Our Process
+        </div>
+        <h2 className="text-[clamp(2.5rem,5vw,4.5rem)] font-display leading-[1.05] tracking-tight text-white">
+          How We Bring Your <span className="text-white/50">Vision to Life</span>
+        </h2>
+        <p className="text-lg lg:text-xl text-white/70 leading-relaxed max-w-xl">
+          From the initial consultation to launch and beyond, our streamlined process ensures transparency, efficiency, and exceptional results at every step.
+        </p>
+        <div className="flex flex-col sm:flex-row items-start gap-4 mt-6">
+          <Button
+            size="lg"
+            className="bg-white hover:bg-white/90 text-black px-8 h-14 text-base rounded-full group"
+          >
+            Start Your Project
+            <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+          </Button>
+          <Button
+            size="lg"
+            variant="outline"
+            className="h-14 px-8 text-base rounded-full border-white/20 text-white hover:bg-white/5 hover:text-white"
+          >
+            Explore Process
+          </Button>
+        </div>
+      </div>
+
+      {/* Right Orbital */}
+      <div className="relative w-full lg:w-7/12 h-[500px] lg:h-[800px] flex items-center justify-center">
         <div
-          className="absolute w-full h-full flex items-center justify-center"
+          className="absolute w-full h-full flex items-center justify-center scale-75 sm:scale-90 lg:scale-100"
           ref={orbitRef}
           style={{
             perspective: "1000px",

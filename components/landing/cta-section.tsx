@@ -2,13 +2,21 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Calendar as CalendarIcon } from "lucide-react";
 import { AnimatedTetrahedron } from "./animated-tetrahedron";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 export function CtaSection() {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [date, setDate] = useState<Date>();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -70,13 +78,72 @@ export function CtaSection() {
                     Start Your Project
                     <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
                   </Button>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="h-14 px-8 text-base rounded-full border-foreground/20 hover:bg-foreground/5"
-                  >
-                    Book a Discovery Call
-                  </Button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button
+                        size="lg"
+                        variant="outline"
+                        className="h-14 px-8 text-base rounded-full border-foreground/20 hover:bg-foreground/5"
+                      >
+                        Book a Discovery Call
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px] bg-background border-foreground/10">
+                      <DialogHeader>
+                        <DialogTitle className="text-2xl font-display flex items-center gap-2">
+                          <CalendarIcon className="w-5 h-5 text-blue-500" />
+                          Schedule a Call
+                        </DialogTitle>
+                        <DialogDescription className="text-muted-foreground pt-1">
+                          Pick a time that works for you. We'll send a calendar invite with a meeting link.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="grid gap-4 py-4 mt-2">
+                        <div className="grid gap-2">
+                          <Label htmlFor="name" className="text-xs font-medium text-foreground/80">Full Name</Label>
+                          <Input id="name" placeholder="John Doe" className="bg-foreground/[0.02] border-foreground/10 h-11" />
+                        </div>
+                        <div className="grid gap-2">
+                          <Label htmlFor="email" className="text-xs font-medium text-foreground/80">Work Email</Label>
+                          <Input id="email" type="email" placeholder="john@company.com" className="bg-foreground/[0.02] border-foreground/10 h-11" />
+                        </div>
+                        <div className="grid gap-2">
+                          <Label className="text-xs font-medium text-foreground/80">Preferred Date</Label>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant={"outline"}
+                                className={cn(
+                                  "w-full h-11 justify-start text-left font-normal bg-foreground/[0.02] border-foreground/10",
+                                  !date && "text-muted-foreground"
+                                )}
+                              >
+                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                {date ? format(date, "PPP") : <span>Pick a date</span>}
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0" align="start">
+                              <Calendar
+                                mode="single"
+                                selected={date}
+                                onSelect={setDate}
+                                initialFocus
+                              />
+                            </PopoverContent>
+                          </Popover>
+                        </div>
+                        <div className="grid gap-2">
+                          <Label htmlFor="topic" className="text-xs font-medium text-foreground/80">Project Type</Label>
+                          <Input id="topic" placeholder="e.g. SaaS App Development" className="bg-foreground/[0.02] border-foreground/10 h-11" />
+                        </div>
+                      </div>
+                      <div className="flex justify-end mt-2">
+                        <Button type="button" className="w-full h-12 rounded-full bg-foreground text-background font-medium hover:bg-foreground/90">
+                          Confirm Booking
+                        </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </div>
 
                 <p className="text-sm text-muted-foreground mt-8 font-mono">

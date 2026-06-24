@@ -11,6 +11,7 @@ import { CtaSection } from "@/components/landing/cta-section";
 import { FooterSection } from "@/components/landing/footer-section";
 import { ProcessSection } from "@/components/landing/process-section";
 import RadialOrbitalTimeline from "@/components/ui/radial-orbital-timeline";
+import { ApiIntegrationDiagram } from "@/components/ui/api-integration-diagram";
 
 
 export default function Home() {
@@ -81,6 +82,7 @@ export default function Home() {
       {/* <HowItWorksSection /> */}
 
       <RadialOrbitalTimeline timelineData={timelineData} />
+      {/* <ApiIntegrationDiagram /> */}
 
       <IntegrationsSection />
       <CtaSection />
