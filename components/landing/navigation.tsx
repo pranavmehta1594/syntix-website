@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -13,9 +13,24 @@ const navLinks = [
   { name: "Contact", href: "/contact" },
 ];
 
+const servicesList = [
+  { name: 'Web Development', img: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80', title: 'Modern Web Development Solutions' },
+  { name: 'App Development', img: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80', title: 'Next-Gen Mobile Applications' },
+  { name: 'SaaS Development', img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80', title: 'Scalable SaaS Platforms' },
+  { name: 'Cloud Services', img: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80', title: 'Enterprise Cloud Infrastructure' },
+  { name: 'Digital Marketing', img: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?auto=format&fit=crop&w=800&q=80', title: 'Data-Driven Digital Marketing' },
+  { name: 'SEO', img: 'https://images.unsplash.com/photo-1562577309-4932fdd64cd1?auto=format&fit=crop&w=800&q=80', title: 'Advanced SEO Strategies' },
+  { name: 'Video Editing', img: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=800&q=80', title: 'Professional Video Production' },
+  { name: 'Graphics Designing', img: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=800&q=80', title: 'Creative Brand Identity & Design' },
+  { name: 'Landing Page Development', img: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80', title: 'High-Converting Landing Pages' },
+  { name: '3D Animation Website Development', img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80', title: 'Immersive 3D Web Experiences' }
+];
+
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
+  const [activeServiceIndex, setActiveServiceIndex] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,26 +54,80 @@ export function Navigation() {
           }`}
       >
         <div
-          className={`flex items-center justify-between transition-all duration-500 px-6 lg:px-8 ${isScrolled ? "h-14" : "h-20"
+          className={`flex items-center justify-between transition-all duration-500 px-6 lg:px-8 relative ${isScrolled ? "h-14" : "h-20"
             }`}
         >
           {/* Logo */}
           <a href="#" className="flex items-center gap-2 group">
-            <span className={`font-display tracking-tight transition-all duration-500 ${isScrolled ? "text-xl" : "text-2xl"}`}>Syntrix Technologies</span>
-            {/* <span className={`text-muted-foreground font-mono transition-all duration-500 ${isScrolled ? "text-[10px] mt-0.5" : "text-xs mt-1"}`}>TM</span> */}
+            <span className={`font-display tracking-tight transition-all duration-500 ${isScrolled ? "text-xl" : "text-2xl"}`}>Syntrix</span>
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-12">
+          <div className="hidden md:flex items-center gap-12 h-full">
             {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-sm text-foreground/70 hover:text-foreground transition-colors duration-300 relative group"
+              <div 
+                key={link.name} 
+                className="relative h-full flex items-center"
+                onMouseEnter={() => link.name === 'Services' && setIsServicesDropdownOpen(true)}
+                onMouseLeave={() => link.name === 'Services' && setIsServicesDropdownOpen(false)}
               >
-                {link.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-foreground transition-all duration-300 group-hover:w-full" />
-              </a>
+                <a
+                  href={link.href}
+                  className="text-sm text-foreground/70 hover:text-foreground transition-colors duration-300 relative group flex items-center h-full"
+                >
+                  {link.name}
+                  <span className="absolute bottom-[calc(50%-12px)] left-0 w-0 h-px bg-foreground transition-all duration-300 group-hover:w-full" />
+                </a>
+
+                {/* Services Dropdown */}
+                {link.name === 'Services' && (
+                  <div 
+                    className={`absolute top-full -left-32 pt-2 transition-all duration-300 ${isServicesDropdownOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"}`}
+                  >
+                    <div className="w-[850px] bg-background border border-foreground/10 rounded-2xl shadow-2xl flex overflow-hidden">
+                      {/* Left Column - Service List */}
+                      <div className="w-1/2 p-8 border-r border-foreground/10 bg-background">
+                        <div className="mb-6 border-b border-foreground/10 pb-4">
+                          <h3 className="text-2xl font-bold text-foreground">Explore Our Services</h3>
+                          <p className="text-sm text-muted-foreground mt-1">Comprehensive IT Solutions for Modern Businesses.</p>
+                        </div>
+                        <div className="flex flex-col gap-1">
+                          {servicesList.map((service, idx) => (
+                            <a 
+                              key={idx} 
+                              href="#" 
+                              className={`px-4 py-2.5 -mx-4 rounded-lg text-sm transition-colors flex justify-between items-center ${activeServiceIndex === idx ? 'bg-foreground/5 text-foreground font-medium' : 'text-foreground/70 hover:text-foreground hover:bg-foreground/5'}`}
+                              onMouseEnter={() => setActiveServiceIndex(idx)}
+                            >
+                              <span>{service.name}</span>
+                              <ArrowRight className={`w-4 h-4 transition-all duration-300 ${activeServiceIndex === idx ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'}`} />
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Right Column - Featured Insight */}
+                      <div className="w-1/2 p-8 bg-foreground/[0.02]">
+                        <h3 className="text-xl font-bold text-foreground mb-6">Featured Insights</h3>
+                        <div className="rounded-xl overflow-hidden aspect-[4/3] relative mb-6">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img 
+                            src={servicesList[activeServiceIndex].img} 
+                            alt={servicesList[activeServiceIndex].name}
+                            className="object-cover w-full h-full transition-all duration-500 hover:scale-105"
+                          />
+                        </div>
+                        <h4 className="text-lg font-bold text-foreground mb-3 leading-tight">
+                          {servicesList[activeServiceIndex].title}
+                        </h4>
+                        <a href="#" className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline font-medium">
+                          Read Full Article
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             ))}
           </div>
 

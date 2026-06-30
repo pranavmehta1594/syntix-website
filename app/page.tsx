@@ -10,6 +10,8 @@ import { PricingSection } from "@/components/landing/pricing-section";
 import { CtaSection } from "@/components/landing/cta-section";
 import { FooterSection } from "@/components/landing/footer-section";
 import { ProcessSection } from "@/components/landing/process-section";
+import { TechStackSection } from "@/components/landing/tech-stack-section";
+import { ProductSection } from "@/components/landing/product-section";
 import RadialOrbitalTimeline from "@/components/ui/radial-orbital-timeline";
 import { ApiIntegrationDiagram } from "@/components/ui/api-integration-diagram";
 
@@ -84,7 +86,9 @@ export default function Home() {
       <RadialOrbitalTimeline timelineData={timelineData} />
       {/* <ApiIntegrationDiagram /> */}
 
-      <IntegrationsSection />
+      <ProductSection />
+      <TechStackSection />
+      {/* <IntegrationsSection /> */}
       <CtaSection />
       <FooterSection />
     </main>

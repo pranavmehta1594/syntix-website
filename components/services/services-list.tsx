@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { ArrowRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const services = [
   {
@@ -70,91 +71,122 @@ const services = [
 ];
 
 export function ServicesListSection() {
-  const [visibleSections, setVisibleSections] = useState<number[]>([]);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          // Update active index when a section crosses the 50% threshold
           if (entry.isIntersecting) {
-            const index = Number(entry.target.getAttribute("data-index"));
-            setVisibleSections((prev) => (prev.includes(index) ? prev : [...prev, index]));
+            setActiveIndex(Number(entry.target.getAttribute("data-index")));
           }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.6 } // Requires 60% of the text block to be visible
     );
 
-    document.querySelectorAll(".service-row").forEach((el) => observer.observe(el));
+    document.querySelectorAll(".service-text-block").forEach((el) => {
+      observer.observe(el);
+    });
 
     return () => observer.disconnect();
   }, []);
 
   return (
-    <section className="py-20 relative bg-background border-t border-foreground/5">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col gap-32">
-        {services.map((service, i) => {
-          const isEven = i % 2 === 0;
-          const isVisible = visibleSections.includes(i);
+    <section className="relative bg-background border-t border-foreground/5">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row relative">
 
-          return (
-            <div
+        {/* Left Side: Scrolling Text Blocks */}
+        <div className="w-full lg:w-[55%] flex flex-col py-[10vh] lg:py-[30vh]">
+          {services.map((service, i) => (
+            <motion.div
               key={i}
               data-index={i}
-              className={`service-row flex flex-col ${
-                isEven ? "lg:flex-row" : "lg:flex-row-reverse"
-              } gap-12 lg:gap-24 items-center transition-all duration-1000 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
-              }`}
+              className="service-text-block min-h-[60vh] lg:min-h-[80vh] flex flex-col justify-center pr-0 lg:pr-16"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              viewport={{ once: false, margin: "-20% 0px -20% 0px" }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              {/* Image Side */}
-              <div className="w-full lg:w-1/2 relative group">
-                <div className="absolute -inset-4 bg-foreground/5 rounded-[2.5rem] transform group-hover:scale-[1.02] transition-transform duration-700 ease-out" />
-                <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl">
-                  {/* Subtle overlay */}
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-700 z-10" />
-                  
-                  <img
-                    src={service.image}
-                    alt={service.title}
-                    className="w-full h-full object-cover filter brightness-90 group-hover:brightness-110 group-hover:scale-105 transition-all duration-1000 ease-out"
-                  />
-                </div>
+              <div className="flex items-center gap-4 mb-6">
+                <span className="text-sm font-mono text-muted-foreground uppercase tracking-wider">
+                  0{i + 1}
+                </span>
+                <div className="w-12 h-px bg-foreground/20" />
               </div>
 
-              {/* Text Side */}
-              <div className="w-full lg:w-1/2 flex flex-col justify-center">
-                <div className="flex items-center gap-4 mb-6">
-                  <span className="text-sm font-mono text-muted-foreground uppercase tracking-wider">
-                    0{i + 1}
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display tracking-tight text-foreground mb-6">
+                {service.title}
+              </h2>
+
+              <p className="text-xl text-muted-foreground leading-relaxed mb-10">
+                {service.description}
+              </p>
+
+              <div className="flex flex-wrap gap-3 mb-10">
+                {service.tags.map((tag, j) => (
+                  <span key={j} className="text-sm font-medium text-foreground/80 bg-foreground/5 border border-foreground/10 px-4 py-2 rounded-full">
+                    {tag}
                   </span>
-                  <div className="w-12 h-px bg-foreground/20" />
-                </div>
-                
-                <h2 className="text-4xl md:text-5xl font-display tracking-tight text-foreground mb-6">
-                  {service.title}
-                </h2>
-                
-                <p className="text-xl text-muted-foreground leading-relaxed mb-10">
-                  {service.description}
-                </p>
-                
-                <div className="flex flex-wrap gap-3 mb-10">
-                  {service.tags.map((tag, j) => (
-                    <span key={j} className="text-sm font-medium text-foreground/80 bg-foreground/5 border border-foreground/10 px-4 py-2 rounded-full">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <a href="#" className={`inline-flex items-center gap-2 text-lg font-medium ${service.accent} hover:opacity-80 transition-opacity w-fit group`}>
-                  Learn more about {service.title.split(' ')[0]}
-                  <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                </a>
+                ))}
               </div>
-            </div>
-          );
-        })}
+
+              <a href="#" className={`inline-flex items-center gap-2 text-lg font-medium ${service.accent} hover:opacity-80 transition-opacity w-fit group`}>
+                Start your project
+                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+              </a>
+
+              {/* Mobile Image (Hidden on Desktop) */}
+              <div className="lg:hidden mt-12 w-full aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl relative">
+                <img
+                  src={service.image}
+                  alt={service.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Right Side: Sticky Image Gallery (Desktop Only) */}
+        <div className="hidden lg:flex w-[45%] h-screen sticky top-0 items-center justify-center pl-12 py-20">
+          <div className="relative w-[80%] max-w-[480px] aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl bg-foreground/5 border border-foreground/10">
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={activeIndex}
+                src={services[activeIndex].image}
+                alt={services[activeIndex].title}
+                initial={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
+                animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                exit={{ opacity: 0, scale: 0.95, filter: "blur(10px)" }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="absolute inset-0 w-full h-full object-cover brightness-90"
+              />
+            </AnimatePresence>
+
+            {/* Overlay Gradient */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+
+            {/* Sticky Content Overlay */}
+            <motion.div
+              key={`text-${activeIndex}`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="absolute bottom-10 left-10 right-10"
+            >
+              <div className="text-white/80 font-mono text-sm tracking-widest uppercase mb-2">
+                Expertise Area
+              </div>
+              <div className="text-3xl font-display text-white">
+                {services[activeIndex].title}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
       </div>
     </section>
   );

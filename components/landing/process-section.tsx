@@ -6,63 +6,78 @@ import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 const processSteps = [
   {
     index: "01",
-    total: "04",
-    title: "Strategy",
+    total: "05",
+    title: "Consultation",
     description:
-      "We get to know you and your brand. Goals, audience, competition. Out of that comes the roadmap everything else stands on.",
+      "Business analysis and requirement gathering. We get to know your brand, goals, and audience to create a roadmap for success.",
     deliverables: [
       "Briefing & Workshop",
-      "Competitor Analysis",
-      "Brand Strategy",
-      "Roadmap",
+      "Requirement Gathering",
+      "Business Analysis",
+      "Strategy Roadmap",
     ],
     image: "/process/strategy.avif",
-    alt: "Strategy",
+    alt: "Consultation",
   },
   {
     index: "02",
-    total: "04",
-    title: "Design",
+    total: "05",
+    title: "UI/UX Design",
     description:
-      "Identity, interface, prototype. This is where the brand becomes visible - from logo to the last pixel of the site.",
+      "Creating intuitive and modern user experiences. From wireframes to the final design system, we make your brand visible.",
     deliverables: [
-      "Brand Identity",
       "Wireframes & UX",
+      "Prototyping",
       "UI Design",
       "Design System",
     ],
     image: "/process/design.avif",
-    alt: "Design",
+    alt: "UI/UX Design",
   },
   {
     index: "03",
-    total: "04",
-    title: "Build",
+    total: "05",
+    title: "Development",
     description:
-      "Engineering on a modern stack: Next.js, React, performance-first. Clean code that scales and still runs in five years.",
+      "Website, Mobile App, SaaS & Custom Software Development. Engineering on a modern stack for scalable, high-performance solutions.",
     deliverables: [
-      "Frontend & CMS",
-      "Backend / API",
-      "Performance & SEO",
-      "QA & Testing",
+      "Web Development",
+      "Mobile Apps",
+      "SaaS Platforms",
+      "Custom Software",
     ],
     image: "/process/build.avif",
-    alt: "Build",
+    alt: "Development",
   },
   {
     index: "04",
-    total: "04",
-    title: "Launch & Care",
+    total: "05",
+    title: "Cloud & DevOps",
     description:
-      "Deployment, monitoring, continuous optimization. We stay on it - your brand grows, and we grow with it.",
+      "Deployment, automation, monitoring, and scalability setup. We ensure your infrastructure is secure, robust, and ready to scale.",
     deliverables: [
-      "Go-Live",
-      "Analytics",
-      "Maintenance & Updates",
-      "Iteration & Growth",
+      "Cloud Architecture",
+      "CI/CD Pipelines",
+      "Monitoring & Alerts",
+      "Scalability Setup",
     ],
     image: "/process/launch-care.avif",
-    alt: "Launch & Care",
+    alt: "Cloud & DevOps",
+  },
+  {
+    index: "05",
+    total: "05",
+    title: "Growth & Marketing",
+    description:
+      "SEO, digital marketing, analytics, and long-term support. We stay on it to ensure your product grows continuously.",
+    deliverables: [
+      "SEO & Analytics",
+      "Digital Marketing",
+      "Maintenance",
+      "Growth Iteration",
+    ],
+    image: "/process/launch-care.avif",
+    alt: "Growth & Marketing",
   },
 ] as const;
 
@@ -96,7 +111,7 @@ function ProcessCard({
 
   return (
     <div
-      className="lg:sticky"
+      className="lg:sticky mb-10"
       style={{
         top: `calc(${STICK_BASE_PX}px + ${index * STACK_OFFSET_PX}px)`,
         zIndex: 10 + index,
@@ -191,7 +206,7 @@ export function ProcessSection() {
           </h2>
         </header>
 
-        <div className="mt-10 space-y-6 pb-4 sm:mt-14 lg:space-y-0">
+        <div className="mt-10 space-y-10 pb-4 sm:mt-14 lg:space-y-16">
           {processSteps.map((step, index) => (
             <ProcessCard
               key={step.index}
