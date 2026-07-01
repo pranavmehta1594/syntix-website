@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Navigation } from "@/components/landing/navigation";
 import { CtaSection } from "@/components/landing/cta-section";
 import { AboutHeroSection } from "@/components/about/about-hero";
@@ -12,14 +13,18 @@ export const metadata = {
 export default function AboutPage() {
   return (
     <main className="relative min-h-screen overflow-x-clip noise-overlay">
-      <Navigation />
+      <Suspense fallback={null}>
+        <Navigation />
+      </Suspense>
 
       {/* About Specific Sections */}
       <AboutHeroSection />
       <TeamSection />
 
       {/* Reused Sections */}
-      <CtaSection />
+      <Suspense fallback={null}>
+        <CtaSection />
+      </Suspense>
       <FooterSection />
     </main>
   );

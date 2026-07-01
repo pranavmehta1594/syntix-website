@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { AnimatedSphere } from "../landing/animated-sphere";
+import { HeroGridBackground } from "@/components/ui/theme-elements";
 
 const words = ["Websites", "Mobile Apps", "SaaS Platforms", "AI Solutions"];
 
@@ -23,7 +24,7 @@ export function HeroSection() {
     }, []);
 
     return (
-        <section className="relative min-h-[100vh] flex flex-col justify-center overflow-hidden bg-slate-50">
+        <section className="relative min-h-[100vh] flex flex-col justify-center overflow-hidden">
             {/* Clear, Unblurred Circle Animation on the Right */}
             <div className="absolute -right-20 lg:-right-10 top-1/2 -translate-y-1/2 w-[400px] h-[400px] lg:w-[750px] lg:h-[750px] opacity-50 pointer-events-none z-0">
                 <AnimatedSphere />
@@ -31,21 +32,8 @@ export function HeroSection() {
                 <div className="absolute inset-0 bg-blue-500/10 blur-[100px] rounded-full -z-10" />
             </div>
 
-            {/* Soft Light Blue Background Glows (Matching Product Section) */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <div className="absolute top-1/2 right-[10%] -translate-y-1/2 w-[60%] h-[80%] bg-blue-200/50 blur-[150px] rounded-full"></div>
-                <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-cyan-100/50 blur-[120px] rounded-full"></div>
-                <div className="absolute -bottom-[20%] left-0 w-full h-[30%] bg-blue-100/50 blur-[100px]"></div>
-            </div>
-
-            {/* Grid pattern overlay (Matching Product Section) */}
-            <div
-                className="absolute inset-0 opacity-[0.4] pointer-events-none"
-                style={{
-                    backgroundImage: 'linear-gradient(#e2e8f0 1px, transparent 1px), linear-gradient(90deg, #e2e8f0 1px, transparent 1px)',
-                    backgroundSize: '32px 32px'
-                }}
-            ></div>
+            {/* Grid pattern overlay */}
+            <HeroGridBackground />
 
             {/* Added pb-32 to prevent content from overlapping with the absolute bottom slider */}
             <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12 py-20 lg:pt-28 pb-32 flex w-full">

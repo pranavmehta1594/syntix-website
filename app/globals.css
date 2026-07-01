@@ -4,7 +4,10 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(0.985 0.002 90);
+  --font-instrument: 'Instrument Sans', system-ui, sans-serif;
+  --font-instrument-serif: 'Instrument Serif', Georgia, serif;
+  --font-jetbrains: 'JetBrains Mono', ui-monospace, monospace;
+  --background: #f8fafc;
   --foreground: oklch(0.12 0.01 60);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.12 0.01 60);

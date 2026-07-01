@@ -44,7 +44,7 @@ export function ProductSection() {
   ];
 
   return (
-    <section className="relative py-12 lg:py-16 overflow-hidden text-zinc-900 bg-slate-50">
+    <section className="relative py-12 lg:py-16 overflow-hidden text-zinc-900 bg-transparent">
       {/* Soft Light Blue Background Glows */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         {/* Main center laptop glow */}

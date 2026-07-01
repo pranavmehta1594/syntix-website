@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, ArrowRight } from "lucide-react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import Image from "next/image";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -29,6 +31,15 @@ const servicesList = [
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const openScheduleModal = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("schedule", "true");
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
   const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
   const [activeServiceIndex, setActiveServiceIndex] = useState(0);
 
@@ -41,32 +52,33 @@ export function Navigation() {
   }, []);
 
   return (
-    <header
-      className={`fixed z-50 transition-all duration-500 ${isScrolled
-        ? "top-4 left-4 right-4"
-        : "top-0 left-0 right-0"
-        }`}
-    >
-      <nav
-        className={`mx-auto transition-all duration-500 ${isScrolled || isMobileMenuOpen
-          ? "bg-background/80 backdrop-blur-xl border border-foreground/10 rounded-2xl shadow-lg max-w-[1200px]"
-          : "bg-transparent max-w-[1400px]"
-          }`}
-      >
-        <div
-          className={`flex items-center justify-between transition-all duration-500 px-6 lg:px-8 relative ${isScrolled ? "h-14" : "h-20"
-            }`}
-        >
-          {/* Logo */}
-          <a href="#" className="flex items-center gap-2 group">
-            <span className={`font-display tracking-tight transition-all duration-500 ${isScrolled ? "text-xl" : "text-2xl"}`}>Syntrix</span>
-          </a>
+    <header className="fixed z-50 transition-all duration-500 top-0 left-0 right-0 flex justify-between items-start px-4 lg:px-8 pointer-events-none">
+      
+      {/* Logo */}
+      <div className="pt-5 pointer-events-auto w-64">
+        <a href="#" className="flex items-center gap-2 group">
+          <div className="relative transition-all duration-500 w-56 h-14">
+            <Image
+              src="/images/logo-new.png"
+              alt="Logo"
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
+        </a>
+      </div>
 
-          {/* Desktop Navigation */}
+      {/* Navigation Pill - Attached to top, centered */}
+      <div className="flex justify-center pointer-events-auto">
+        <nav className={`transition-all duration-500 rounded-b-[2rem] ${isScrolled ? "bg-background/80 backdrop-blur-xl border-x border-b border-foreground/10 shadow-lg" : "bg-transparent"}`}>
+          <div className={`flex items-center gap-12 transition-all duration-500 px-8 lg:px-12 py-2 relative ${isScrolled ? "h-16" : "h-20"}`}>
+
+            {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-12 h-full">
             {navLinks.map((link) => (
-              <div 
-                key={link.name} 
+              <div
+                key={link.name}
                 className="relative h-full flex items-center"
                 onMouseEnter={() => link.name === 'Services' && setIsServicesDropdownOpen(true)}
                 onMouseLeave={() => link.name === 'Services' && setIsServicesDropdownOpen(false)}
@@ -81,7 +93,7 @@ export function Navigation() {
 
                 {/* Services Dropdown */}
                 {link.name === 'Services' && (
-                  <div 
+                  <div
                     className={`absolute top-full -left-32 pt-2 transition-all duration-300 ${isServicesDropdownOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"}`}
                   >
                     <div className="w-[850px] bg-background border border-foreground/10 rounded-2xl shadow-2xl flex overflow-hidden">
@@ -93,9 +105,9 @@ export function Navigation() {
                         </div>
                         <div className="flex flex-col gap-1">
                           {servicesList.map((service, idx) => (
-                            <a 
-                              key={idx} 
-                              href="#" 
+                            <a
+                              key={idx}
+                              href="#"
                               className={`px-4 py-2.5 -mx-4 rounded-lg text-sm transition-colors flex justify-between items-center ${activeServiceIndex === idx ? 'bg-foreground/5 text-foreground font-medium' : 'text-foreground/70 hover:text-foreground hover:bg-foreground/5'}`}
                               onMouseEnter={() => setActiveServiceIndex(idx)}
                             >
@@ -111,8 +123,8 @@ export function Navigation() {
                         <h3 className="text-xl font-bold text-foreground mb-6">Featured Insights</h3>
                         <div className="rounded-xl overflow-hidden aspect-[4/3] relative mb-6">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img 
-                            src={servicesList[activeServiceIndex].img} 
+                          <img
+                            src={servicesList[activeServiceIndex].img}
                             alt={servicesList[activeServiceIndex].name}
                             className="object-cover w-full h-full transition-all duration-500 hover:scale-105"
                           />
@@ -131,23 +143,12 @@ export function Navigation() {
             ))}
           </div>
 
-          {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-4">
-            <a href="#" className={`text-foreground/70 hover:text-foreground transition-all duration-500 ${isScrolled ? "text-xs" : "text-sm"}`}>
-              View Work
-            </a>
-            <Button
-              size="sm"
-              className={`bg-foreground hover:bg-foreground/90 text-background rounded-full transition-all duration-500 ${isScrolled ? "px-4 h-8 text-xs" : "px-6"}`}
-            >
-              Get Free Consultation
-            </Button>
-          </div>
+          {/* Desktop CTA moved to the right column */}
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2"
+            className="md:hidden p-2 text-foreground"
             aria-label="Toggle menu"
           >
             {isMobileMenuOpen ? (
@@ -158,7 +159,22 @@ export function Navigation() {
           </button>
         </div>
 
-      </nav>
+        </nav>
+      </div>
+
+      {/* Desktop CTA - Positioned on the far right */}
+      <div className="w-64 hidden lg:flex items-center justify-end gap-6 pointer-events-auto pt-5">
+        <a href="#" className={`text-foreground/70 hover:text-foreground font-medium transition-all duration-500 ${isScrolled ? "text-xs" : "text-sm"}`}>
+          View Work
+        </a>
+        <Button
+          size="sm"
+          onClick={openScheduleModal}
+          className={`bg-foreground hover:bg-foreground/90 text-background font-semibold rounded-full transition-all duration-500 ${isScrolled ? "px-4 h-8 text-xs" : "px-6"}`}
+        >
+          Get Free Consultation
+        </Button>
+      </div>
 
       {/* Mobile Menu - Full Screen Overlay */}
       <div

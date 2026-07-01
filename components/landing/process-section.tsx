@@ -2,84 +2,71 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import { 
+  DesignAnimation, 
+  DevelopmentAnimation, 
+  CloudDevOpsAnimation, 
+  GrowthAnimation 
+} from "@/components/animations/process-animations";
 
 const processSteps = [
   {
     index: "01",
-    total: "05",
-    title: "Consultation",
+    total: "04",
+    title: "Web & Mobile App Development",
     description:
-      "Business analysis and requirement gathering. We get to know your brand, goals, and audience to create a roadmap for success.",
+      "Custom software engineering on a modern stack for scalable, high-performance web and mobile solutions.",
     deliverables: [
-      "Briefing & Workshop",
-      "Requirement Gathering",
-      "Business Analysis",
-      "Strategy Roadmap",
+      "Web Development",
+      "Mobile Apps",
+      "Custom Software",
+      "API Integration",
     ],
-    image: "/process/strategy.avif",
-    alt: "Consultation",
+    animation: <DevelopmentAnimation />,
   },
   {
     index: "02",
-    total: "05",
-    title: "UI/UX Design",
+    total: "04",
+    title: "SaaS Development",
     description:
-      "Creating intuitive and modern user experiences. From wireframes to the final design system, we make your brand visible.",
+      "End-to-end software as a service platform creation, focusing on scalability, multi-tenancy, and growth.",
+    deliverables: [
+      "Platform Architecture",
+      "Multi-Tenancy",
+      "Subscription Systems",
+      "Growth Dashboards",
+    ],
+    animation: <GrowthAnimation />,
+  },
+  {
+    index: "03",
+    total: "04",
+    title: "UI/UX Designs",
+    description:
+      "Creating intuitive, stunning, and modern user experiences. From wireframes to the final polished design system.",
     deliverables: [
       "Wireframes & UX",
       "Prototyping",
       "UI Design",
-      "Design System",
+      "Design Systems",
     ],
-    image: "/process/design.avif",
-    alt: "UI/UX Design",
-  },
-  {
-    index: "03",
-    total: "05",
-    title: "Development",
-    description:
-      "Website, Mobile App, SaaS & Custom Software Development. Engineering on a modern stack for scalable, high-performance solutions.",
-    deliverables: [
-      "Web Development",
-      "Mobile Apps",
-      "SaaS Platforms",
-      "Custom Software",
-    ],
-    image: "/process/build.avif",
-    alt: "Development",
+    animation: <DesignAnimation />,
   },
   {
     index: "04",
-    total: "05",
-    title: "Cloud & DevOps",
+    total: "04",
+    title: "Cloud Services",
     description:
-      "Deployment, automation, monitoring, and scalability setup. We ensure your infrastructure is secure, robust, and ready to scale.",
+      "Deployment, automation, monitoring, and robust infrastructure setup. We ensure your platforms are secure and ready to scale.",
     deliverables: [
       "Cloud Architecture",
       "CI/CD Pipelines",
       "Monitoring & Alerts",
       "Scalability Setup",
     ],
-    image: "/process/launch-care.avif",
-    alt: "Cloud & DevOps",
+    animation: <CloudDevOpsAnimation />,
   },
-  {
-    index: "05",
-    total: "05",
-    title: "Growth & Marketing",
-    description:
-      "SEO, digital marketing, analytics, and long-term support. We stay on it to ensure your product grows continuously.",
-    deliverables: [
-      "SEO & Analytics",
-      "Digital Marketing",
-      "Maintenance",
-      "Growth Iteration",
-    ],
-    image: "/process/launch-care.avif",
-    alt: "Growth & Marketing",
-  },
-] as const;
+];
 
 // Visible "deck" offset between stacked cards on desktop, in px.
 const STACK_OFFSET_PX = 14;
@@ -126,14 +113,8 @@ function ProcessCard({
           lg:grid lg:h-[480px] lg:grid-cols-2
         "
       >
-        <div className="relative overflow-hidden bg-[#111111]">
-          <img
-            src={step.image}
-            alt={step.alt}
-            className="h-full w-full object-cover"
-            loading={index === 0 ? "eager" : "lazy"}
-            decoding="async"
-          />
+        <div className="relative overflow-hidden bg-[#111111] h-full flex items-center justify-center p-8">
+          {step.animation}
         </div>
 
         <div className="flex min-w-0 flex-col justify-center px-6 py-8 sm:px-9">
@@ -191,18 +172,18 @@ export function ProcessSection() {
     <section
       id="process"
       ref={containerRef}
-      className="relative border-t border-white/10 bg-[#090909] text-white"
+      className="relative border-y border-zinc-800 bg-zinc-950 text-white"
     >
       <div className="mx-auto max-w-[1600px] px-5 py-8 sm:px-6 sm:py-12 lg:px-10 lg:py-16">
         <header className="max-w-4xl">
           <p className="flex items-center gap-3 text-xs uppercase tracking-[0.24em] text-white/55 sm:text-sm">
             <span className="h-px w-6 bg-[#c9e265]" aria-hidden="true" />
             <span className="font-mono text-white/70">[04]</span>
-            <span>Process / How we work</span>
+            <span>Services / What we do</span>
           </p>
           <h2 className="mt-5 text-[clamp(2.6rem,4.8vw,5.5rem)] font-display leading-[0.94] tracking-[-0.05em] text-white">
-            From <em className="font-display italic text-[#c9e265]">briefing</em>{" "}
-            to <em className="font-display italic text-[#c9e265]">launch.</em>
+            <em className="font-display italic text-[#c9e265]">Solutions</em>{" "}
+            for your <em className="font-display italic text-[#c9e265]">growth.</em>
           </h2>
         </header>
 

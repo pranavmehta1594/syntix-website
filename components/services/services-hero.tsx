@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ArrowDown } from "lucide-react";
+import { HeroGridBackground } from "@/components/ui/theme-elements";
 
 export function ServicesHeroSection() {
   const [isVisible, setIsVisible] = useState(false);
@@ -11,12 +12,10 @@ export function ServicesHeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-[70vh] flex flex-col justify-center overflow-hidden pt-32 pb-20 bg-background">
+    <section className="relative min-h-[70vh] flex flex-col justify-center overflow-hidden pt-32 pb-20">
       {/* Background Gradients & Noise */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] right-[-5%] w-[50%] h-[50%] rounded-full bg-foreground/5 blur-[120px] mix-blend-screen" />
-        <div className="absolute bottom-[-10%] left-[-5%] w-[40%] h-[40%] rounded-full bg-foreground/5 blur-[120px] mix-blend-screen" />
-        <div className="absolute inset-0 bg-[url('https://framerusercontent.com/images/noise.png')] opacity-10 mix-blend-overlay"></div>
+        <HeroGridBackground />
       </div>
 
       <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12 w-full text-center flex flex-col items-center">

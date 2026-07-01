@@ -39,7 +39,7 @@ const socialLinks = [
 
 export function FooterSection() {
   return (
-    <footer className="relative border-t border-foreground/10">
+    <footer className="relative bg-zinc-950 text-white border-t-0">
       {/* Animated wave background */}
       <div className="absolute inset-0 h-64 opacity-20 pointer-events-none overflow-hidden">
         <AnimatedWave />
@@ -53,9 +53,9 @@ export function FooterSection() {
             <div className="col-span-2">
               <a href="/" className="inline-flex items-center gap-2 mb-6">
                 <span className="text-2xl font-display">Syntrix Technologies</span>
-                <span className="text-xs text-muted-foreground font-mono">TM</span>
+                <span className="text-xs text-background/70 font-mono">TM</span>
               </a>
-              <p className="text-muted-foreground leading-relaxed mb-8 max-w-xs">
+              <p className="text-background/70 leading-relaxed mb-8 max-w-xs">
                 Syntrix Technologies is a software development company specializing
                 in custom web applications, mobile app development, SaaS products,
                 cloud solutions, DevOps, SEO, and digital transformation services.
@@ -66,7 +66,7 @@ export function FooterSection() {
                   <a
                     key={link.name}
                     href={link.href}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 group"
+                    className="text-sm text-background/70 hover:text-background transition-colors flex items-center gap-1 group"
                   >
                     {link.name}
                     <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
@@ -84,11 +84,11 @@ export function FooterSection() {
                     <li key={link.name}>
                       <a
                         href={link.href}
-                        className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-2"
+                        className="text-sm text-background/70 hover:text-background transition-colors inline-flex items-center gap-2"
                       >
                         {link.name}
                         {"badge" in link && link.badge && (
-                          <span className="text-xs px-2 py-0.5 bg-foreground text-background rounded-full">
+                          <span className="text-xs px-2 py-0.5 bg-background text-foreground rounded-full">
                             {link.badge}
                           </span>
                         )}
@@ -102,14 +102,14 @@ export function FooterSection() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="py-8 border-t border-foreground/10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-muted-foreground">
+        <div className="py-8 border-t border-background/20 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-background/70">
             © 2026 Syntrix Technologies. All rights reserved.
           </p>
-          <div className="flex items-center gap-6 text-sm text-muted-foreground">
-            <a href="/privacy-policy" className="hover:text-foreground transition-colors">Privacy Policy</a>
-            <a href="/terms" className="hover:text-foreground transition-colors">Terms</a>
-            <a href="/faq" className="hover:text-foreground transition-colors">FAQ</a>
+          <div className="flex items-center gap-6 text-sm text-background/70">
+            <a href="/privacy-policy" className="hover:text-background transition-colors">Privacy Policy</a>
+            <a href="/terms" className="hover:text-background transition-colors">Terms</a>
+            <a href="/faq" className="hover:text-background transition-colors">FAQ</a>
             <span className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
               Available for New Projects

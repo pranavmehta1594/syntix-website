@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Navigation } from "@/components/landing/navigation";
 import { FooterSection } from "@/components/landing/footer-section";
 import { ContactHeroSection } from "@/components/contact/contact-hero";
@@ -11,7 +12,9 @@ export const metadata = {
 export default function ContactPage() {
   return (
     <main className="relative min-h-screen overflow-x-clip noise-overlay">
-      <Navigation />
+      <Suspense fallback={null}>
+        <Navigation />
+      </Suspense>
       
       {/* Contact Specific Sections */}
       <ContactHeroSection />

@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { ArrowRight, Link, Zap, Calendar, FileText, Code, User as UserIcon, Clock } from "lucide-react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -31,6 +32,16 @@ interface RadialOrbitalTimelineProps {
 export default function RadialOrbitalTimeline({
   timelineData,
 }: RadialOrbitalTimelineProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const openScheduleModal = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("schedule", "true");
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
   const [expandedItems, setExpandedItems] = useState<Record<number, boolean>>({});
   const [rotationAngle, setRotationAngle] = useState<number>(0);
   const [autoRotate, setAutoRotate] = useState<boolean>(true);
@@ -136,7 +147,7 @@ export default function RadialOrbitalTimeline({
 
   return (
     <div
-      className="w-full flex flex-col lg:flex-row items-center justify-between bg-background border-t border-foreground/5 overflow-hidden px-6 lg:px-20 py-12 lg:py-16 gap-8 lg:gap-0"
+      className="w-full flex flex-col lg:flex-row items-center justify-between bg-background overflow-hidden px-6 lg:px-20 py-12 lg:py-16 gap-8 lg:gap-0"
       ref={containerRef}
       onClick={handleContainerClick}
     >
@@ -190,6 +201,7 @@ export default function RadialOrbitalTimeline({
         {/* CTAs */}
         <div className="flex flex-row items-center gap-3">
           <Button
+            onClick={openScheduleModal}
             className="bg-foreground hover:bg-foreground/90 text-background px-6 h-9 text-xs rounded-full group"
           >
             Start Your Project

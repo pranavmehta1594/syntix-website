@@ -44,7 +44,7 @@ export function VideoSection() {
     <section
       id="video"
       ref={containerRef}
-      className="relative h-[350vh] bg-background"
+      className="relative h-[350vh] bg-transparent"
     >
       <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
         <motion.div

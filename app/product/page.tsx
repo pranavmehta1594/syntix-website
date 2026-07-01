@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Navigation } from "@/components/landing/navigation";
 import { FooterSection } from "@/components/landing/footer-section";
 import { CtaSection } from "@/components/landing/cta-section";
@@ -12,14 +13,18 @@ export const metadata = {
 export default function ProductPage() {
   return (
     <main className="relative min-h-screen overflow-x-clip noise-overlay">
-      <Navigation />
+      <Suspense fallback={null}>
+        <Navigation />
+      </Suspense>
       
       {/* Product Specific Sections */}
       <ProductHeroSection />
       <ProductFeaturesSection />
       
       {/* Reused Sections */}
-      <CtaSection />
+      <Suspense fallback={null}>
+        <CtaSection />
+      </Suspense>
       <FooterSection />
     </main>
   );

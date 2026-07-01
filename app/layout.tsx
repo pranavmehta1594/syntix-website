@@ -1,25 +1,11 @@
 import React from "react"
 import type { Metadata } from 'next'
-import { Instrument_Sans, Instrument_Serif, JetBrains_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { FloatingActions } from '@/components/ui/floating-actions'
+import { GlobalThemeBackground } from '@/components/ui/theme-elements'
+import { ScheduleModal } from '@/components/ui/schedule-modal'
+import { Suspense } from 'react'
 import './globals.css'
-
-const instrumentSans = Instrument_Sans({ 
-  subsets: ["latin"],
-  variable: '--font-instrument'
-});
-
-const instrumentSerif = Instrument_Serif({ 
-  subsets: ["latin"],
-  weight: "400",
-  variable: '--font-instrument-serif'
-});
-
-const jetbrainsMono = JetBrains_Mono({ 
-  subsets: ["latin"],
-  variable: '--font-jetbrains'
-});
 
 export const metadata: Metadata = {
   title: 'Optimus - Platform to Create',
@@ -34,8 +20,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${instrumentSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
+      <body className="font-sans antialiased bg-slate-50">
+        <GlobalThemeBackground />
         {children}
+        <Suspense fallback={null}>
+          <ScheduleModal />
+        </Suspense>
         <FloatingActions />
         <Analytics />
       </body>

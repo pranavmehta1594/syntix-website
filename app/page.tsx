@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Navigation } from "@/components/landing/navigation";
 import { HeroSection } from "@/components/landing/hero-section";
 import { VideoSection } from "@/components/landing/video-section";
@@ -7,7 +8,7 @@ import { SecuritySection } from "@/components/landing/security-section";
 import { DevelopersSection } from "@/components/landing/developers-section";
 import { TestimonialsSection } from "@/components/landing/testimonials-section";
 import { PricingSection } from "@/components/landing/pricing-section";
-import { CtaSection } from "@/components/landing/cta-section";
+import { BlogsSection } from "@/components/landing/blogs-section";
 import { FooterSection } from "@/components/landing/footer-section";
 import { ProcessSection } from "@/components/landing/process-section";
 import { TechStackSection } from "@/components/landing/tech-stack-section";
@@ -76,20 +77,24 @@ export default function Home() {
   ];
   return (
     <main className="relative min-h-screen overflow-x-clip noise-overlay">
-      <Navigation />
+      <Suspense fallback={null}>
+        <Navigation />
+      </Suspense>
       <HeroSection />
       <VideoSection />
       <ProcessSection />
       {/* <FeaturesSection /> */}
       {/* <HowItWorksSection /> */}
 
-      <RadialOrbitalTimeline timelineData={timelineData} />
+      <Suspense fallback={null}>
+        <RadialOrbitalTimeline timelineData={timelineData} />
+      </Suspense>
       {/* <ApiIntegrationDiagram /> */}
 
       <ProductSection />
       <TechStackSection />
       {/* <IntegrationsSection /> */}
-      <CtaSection />
+      <BlogsSection />
       <FooterSection />
     </main>
   );

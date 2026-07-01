@@ -36,7 +36,7 @@ const row3 = [
 
 export function TechStackSection() {
   return (
-    <section className="technology-we-work techstack py-24 bg-gradient-to-r from-gray-100 via-blue-50 to gray-50 overflow-hidden">
+    <section className="technology-we-work techstack py-24 bg-background overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
         <div className="section-title content mb-16">
           <h2 className="text-center max-w-6xl mx-auto text-2xl md:text-4xl font-medium tracking-tight text-zinc-900 mb-6">

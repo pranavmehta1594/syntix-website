@@ -23,7 +23,7 @@ export function HeroSection() {
     }, []);
 
     return (
-        <section className="relative min-h-[95vh] flex flex-col justify-center overflow-hidden bg-background">
+        <section className="relative min-h-[95vh] flex flex-col justify-center overflow-hidden">
             {/* Dynamic Glowing Backdrop using Animated Sphere */}
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] lg:w-[1200px] lg:h-[1200px] opacity-30 pointer-events-none blur-[100px] mix-blend-screen">
                 <AnimatedSphere />

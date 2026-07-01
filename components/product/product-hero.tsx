@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight, Activity } from "lucide-react";
+import { HeroGridBackground } from "@/components/ui/theme-elements";
 
 export function ProductHeroSection() {
   const [isVisible, setIsVisible] = useState(false);
@@ -12,12 +13,10 @@ export function ProductHeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-[80vh] flex flex-col justify-center overflow-hidden pt-32 pb-20 bg-background">
+    <section className="relative min-h-[80vh] flex flex-col justify-center overflow-hidden pt-32 pb-20">
       {/* Background Gradients & Noise */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-20%] right-[-10%] w-[60%] h-[60%] rounded-full bg-[#4372F9]/20 blur-[120px] mix-blend-screen" />
-        <div className="absolute bottom-[-20%] left-[-10%] w-[60%] h-[60%] rounded-full bg-[#2DB13F]/10 blur-[120px] mix-blend-screen" />
-        <div className="absolute inset-0 bg-[url('https://framerusercontent.com/images/noise.png')] opacity-10 mix-blend-overlay"></div>
+        <HeroGridBackground />
       </div>
 
       <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12 w-full text-center flex flex-col items-center">

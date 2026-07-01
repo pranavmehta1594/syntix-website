@@ -23,7 +23,7 @@ export function HeroSection() {
     }, []);
 
     return (
-        <section className="relative min-h-[80vh] lg:min-h-[85vh] flex flex-col justify-center overflow-hidden bg-background">
+        <section className="relative min-h-[80vh] lg:min-h-[85vh] flex flex-col justify-center overflow-hidden">
             {/* Clear, Unblurred Circle Animation on the Right */}
             <div className="absolute -right-20 lg:-right-10 top-1/2 -translate-y-1/2 w-[400px] h-[400px] lg:w-[750px] lg:h-[750px] opacity-50 pointer-events-none z-0">
                 <AnimatedSphere />
