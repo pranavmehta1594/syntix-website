@@ -26,7 +26,7 @@ export function HeroSection() {
     return (
         <section className="relative min-h-[100vh] flex flex-col justify-center overflow-hidden">
             {/* Clear, Unblurred Circle Animation on the Right */}
-            <div className="absolute -right-20 lg:-right-10 top-1/2 -translate-y-1/2 w-[400px] h-[400px] lg:w-[750px] lg:h-[750px] opacity-50 pointer-events-none z-0">
+            <div className="hidden sm:block absolute -right-[20%] sm:-right-20 lg:-right-10 top-1/4 sm:top-1/2 -translate-y-1/2 w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] lg:w-[750px] lg:h-[750px] opacity-30 sm:opacity-50 pointer-events-none z-0">
                 <AnimatedSphere />
                 {/* Subtle radial gradient behind the sphere to make it pop slightly */}
                 <div className="absolute inset-0 bg-blue-500/10 blur-[100px] rounded-full -z-10" />
@@ -36,9 +36,9 @@ export function HeroSection() {
             <HeroGridBackground />
 
             {/* Added pb-32 to prevent content from overlapping with the absolute bottom slider */}
-            <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12 py-20 lg:pt-28 pb-32 flex w-full">
+            <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12 pt-10 lg:pt-28 pb-8 lg:pb-32 flex w-full">
 
-                {/* Left Aligned Content */}
+                {/* Content */}
                 <div className="w-full lg:w-[60%] flex flex-col items-start text-left">
 
                     {/* Premium Badge */}
@@ -55,12 +55,12 @@ export function HeroSection() {
                     {/* Massive Headline */}
                     <div className="mb-6 w-full">
                         <h1
-                            className={`text-[clamp(2.5rem,5vw,4.5rem)] font-display leading-[1.05] tracking-tight text-zinc-900 transition-all duration-1000 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                            className={`text-3xl sm:text-[clamp(3rem,5vw,4.5rem)] font-display leading-[1.1] tracking-tight text-zinc-900 transition-all duration-1000 delay-100 w-full ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                                 }`}
                         >
                             We engineer premium
-                            <br />
-                            <span className="relative inline-flex flex-col h-[1.2em] overflow-hidden align-bottom justify-end min-w-[300px]">
+                            <br className="hidden sm:block" />
+                            <span className="relative inline-flex flex-col h-[1.2em] overflow-hidden align-bottom justify-end min-w-[180px] sm:min-w-[260px] md:min-w-[300px] mx-1 sm:mx-0">
                                 {words.map((word, i) => (
                                     <span
                                         key={i}
@@ -80,7 +80,7 @@ export function HeroSection() {
 
                     {/* Description */}
                     <p
-                        className={`text-lg md:text-xl text-zinc-600 leading-relaxed max-w-xl mb-10 transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                        className={`text-base sm:text-lg md:text-xl text-zinc-600 leading-relaxed max-w-xl mb-10 transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                             }`}
                     >
                         From highly scalable web architectures to immersive mobile experiences. We design, build, and scale digital products that dominate markets.
@@ -88,15 +88,15 @@ export function HeroSection() {
 
                     {/* CTAs */}
                     <div
-                        className={`flex flex-col sm:flex-row items-start gap-4 transition-all duration-1000 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                        className={`flex flex-col sm:flex-row items-start gap-3 sm:gap-4 transition-all duration-1000 delay-300 w-full ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                             }`}
                     >
                         <Button
                             size="lg"
-                            className="relative bg-zinc-900 hover:bg-zinc-800 text-white px-8 h-12 lg:h-14 lg:px-10 text-base rounded-full group overflow-hidden shadow-lg shadow-zinc-900/10"
+                            className="relative bg-zinc-900 hover:bg-zinc-800 text-white w-full sm:w-auto px-5 sm:px-8 h-13 lg:h-14 lg:px-10 text-base rounded-full group overflow-hidden shadow-lg shadow-zinc-900/10"
                         >
                             <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 opacity-0 group-hover:opacity-20 transition-opacity duration-500" />
-                            <span className="relative z-10 flex items-center">
+                            <span className="relative z-10 flex items-center justify-center">
                                 Start Your Project
                                 <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
                             </span>
@@ -104,7 +104,7 @@ export function HeroSection() {
                         <Button
                             size="lg"
                             variant="outline"
-                            className="h-12 lg:h-14 px-8 lg:px-10 text-base rounded-full border-zinc-300 hover:bg-zinc-100 text-zinc-800 bg-white/50 backdrop-blur-md"
+                            className="w-full sm:w-auto h-13 lg:h-14 px-5 sm:px-8 lg:px-10 text-base rounded-full border-zinc-300 hover:bg-zinc-100 text-zinc-800 bg-white/50 backdrop-blur-md"
                         >
                             View Our Work
                         </Button>
@@ -126,8 +126,8 @@ export function HeroSection() {
                                     { value: "24/7", label: "Support Available", company: "SYNTRIX" },
                                     { value: "100%", label: "Custom Solutions", company: "SYNTRIX" },
                                     { value: "Fast", label: "Project Delivery", company: "SYNTRIX" },
-                                ].map((stat) => (
-                                    <div key={`${stat.company}-${i}`} className="flex items-center gap-4">
+                                ].map((stat, statIndex) => (
+                                    <div key={`${stat.company}-${i}-${statIndex}`} className="flex items-center gap-4">
                                         <span className="text-2xl lg:text-3xl font-display text-zinc-900">{stat.value}</span>
                                         <span className="text-xs lg:text-sm text-zinc-600 flex flex-col justify-center">
                                             {stat.label}

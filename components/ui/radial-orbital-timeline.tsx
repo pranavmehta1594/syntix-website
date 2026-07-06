@@ -152,7 +152,7 @@ export default function RadialOrbitalTimeline({
       onClick={handleContainerClick}
     >
       {/* Left Content */}
-      <div className="w-full lg:w-5/12 max-w-xl z-20 flex flex-col gap-3 lg:ml-8">
+      <div className="w-full lg:w-5/12 max-w-xl z-20 flex flex-col gap-8 lg:ml-8">
         {/* Eyebrow */}
         <div className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground">
           <span className="w-8 h-px bg-foreground/30" />
@@ -161,7 +161,7 @@ export default function RadialOrbitalTimeline({
 
         <h2 className="text-[clamp(1.8rem,3.5vw,3rem)] font-display leading-[1.05] tracking-tight text-foreground">
           How We Bring Your{" "}
-          <span className="text-muted-foreground">Vision to Life</span>
+          <span className="text-blue-500">Vision to Life</span>
         </h2>
 
         <p className="text-sm text-muted-foreground leading-relaxed max-w-lg">

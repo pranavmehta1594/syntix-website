@@ -11,7 +11,7 @@ export function CareersHeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-[60vh] flex flex-col justify-center overflow-hidden pt-32 pb-20">
+    <section className="relative min-h-[50vh] flex flex-col justify-center overflow-hidden pt-32 pb-16">
       {/* Subtle grid lines matching the hero section */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
         <HeroGridBackground />
@@ -43,31 +43,14 @@ export function CareersHeroSection() {
         </div>
 
         {/* Description */}
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-end mt-12">
+        <div className="max-w-2xl mt-8">
           <p
             className={`text-xl lg:text-2xl text-muted-foreground leading-relaxed transition-all duration-700 delay-200 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            Join a collective of ambitious builders, designers, and innovators. We are always looking for exceptional talent to join our mission.
+            Join a collective of ambitious builders and innovators. We are an early-stage startup looking for exceptional talent to join our founding team.
           </p>
-
-          <div
-            className={`flex flex-col gap-6 transition-all duration-700 delay-300 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
-          >
-            <div className="flex items-center gap-12">
-              <div>
-                <div className="text-4xl font-display text-foreground">Remote</div>
-                <div className="text-sm font-mono text-muted-foreground mt-1">Work from Anywhere</div>
-              </div>
-              <div>
-                <div className="text-4xl font-display text-foreground">Global</div>
-                <div className="text-sm font-mono text-muted-foreground mt-1">Diverse Team</div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>

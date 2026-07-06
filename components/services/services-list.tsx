@@ -98,34 +98,34 @@ export function ServicesListSection() {
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row relative">
 
         {/* Left Side: Scrolling Text Blocks */}
-        <div className="w-full lg:w-[55%] flex flex-col py-[10vh] lg:py-[30vh]">
+        <div className="w-full lg:w-[55%] flex flex-col py-12 lg:py-[30vh] gap-20 lg:gap-0">
           {services.map((service, i) => (
             <motion.div
               key={i}
               data-index={i}
-              className="service-text-block min-h-[60vh] lg:min-h-[80vh] flex flex-col justify-center pr-0 lg:pr-16"
+              className="service-text-block lg:min-h-[80vh] flex flex-col justify-center pr-0 lg:pr-16"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -50 }}
               viewport={{ once: false, margin: "-20% 0px -20% 0px" }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <div className="flex items-center gap-4 mb-6">
+              <div className="flex items-center gap-4 mb-4 md:mb-6">
                 <span className="text-sm font-mono text-muted-foreground uppercase tracking-wider">
                   0{i + 1}
                 </span>
                 <div className="w-12 h-px bg-foreground/20" />
               </div>
 
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display tracking-tight text-foreground mb-6">
+              <h2 className="text-3xl md:text-5xl lg:text-6xl font-display tracking-tight text-foreground mb-4 md:mb-6">
                 {service.title}
               </h2>
 
-              <p className="text-xl text-muted-foreground leading-relaxed mb-10">
+              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-6 md:mb-10">
                 {service.description}
               </p>
 
-              <div className="flex flex-wrap gap-3 mb-10">
+              <div className="flex flex-wrap gap-2 md:gap-3 mb-8 md:mb-10">
                 {service.tags.map((tag, j) => (
                   <span key={j} className="text-sm font-medium text-foreground/80 bg-foreground/5 border border-foreground/10 px-4 py-2 rounded-full">
                     {tag}
@@ -139,7 +139,7 @@ export function ServicesListSection() {
               </a>
 
               {/* Mobile Image (Hidden on Desktop) */}
-              <div className="lg:hidden mt-12 w-full aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl relative">
+              <div className="lg:hidden mt-8 md:mt-12 w-full aspect-[4/3] rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-2xl relative">
                 <img
                   src={service.image}
                   alt={service.title}

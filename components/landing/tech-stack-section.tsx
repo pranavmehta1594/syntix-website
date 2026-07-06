@@ -36,13 +36,13 @@ const row3 = [
 
 export function TechStackSection() {
   return (
-    <section className="technology-we-work techstack py-24 bg-background overflow-hidden">
+    <section className="technology-we-work techstack py-16 md:py-24 bg-background overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="section-title content mb-16">
-          <h2 className="text-center max-w-6xl mx-auto text-2xl md:text-4xl font-medium tracking-tight text-zinc-900 mb-6">
-            Absolutely, We have thoroughly mastered the technologies you prefer.
+        <div className="section-title content mb-10 md:mb-16 flex flex-col items-start md:items-center">
+          <h2 className="text-left md:text-center max-w-4xl md:max-w-6xl md:mx-auto text-3xl md:text-4xl lg:text-5xl font-display leading-[1.1] tracking-tight text-zinc-900 mb-4 md:mb-6 px-2">
+            Absolutely, We have thoroughly mastered the <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">technologies you prefer.</span>
           </h2>
-          <p className="text-center text-zinc-600 max-w-3xl mx-auto text-lg md:text-xl">
+          <p className="text-left md:text-center text-sm md:text-lg lg:text-xl text-zinc-600 leading-relaxed md:leading-normal max-w-xl md:max-w-3xl md:mx-auto px-2">
             Our exceptionally skilled IT specialists are proficient in both classic and modern
             programming languages, as well as frameworks. We aim for excellence, choosing only the
             top-tier candidates when selecting our IT specialists.
@@ -50,12 +50,12 @@ export function TechStackSection() {
         </div>
       </div>
 
-      <div className="technology-slider-wrap flex flex-col w-full">
+      <div className="technology-slider-wrap flex flex-col w-full [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)] md:[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
         {/* Row 1 */}
-        <div className="w-full mb-6">
-          <div className="flex gap-6 marquee" style={{ cursor: 'grab' }}>
+        <div className="w-full mb-4 md:mb-6">
+          <div className="flex gap-4 md:gap-6 marquee" style={{ cursor: 'grab' }}>
             {[...Array(2)].map((_, setIndex) => (
-              <div key={setIndex} className="flex gap-6 shrink-0">
+              <div key={setIndex} className="flex gap-4 md:gap-6 shrink-0">
                 {row1.map((tech, i) => (
                   <div key={`${tech.name}-${setIndex}-${i}`} className="w-fit shrink-0 flex items-center justify-center py-2.5 px-5 bg-white rounded-lg border border-zinc-200 shadow-sm hover:shadow-md transition-shadow">
                     <div className="flex flex-row items-center gap-2.5">
@@ -73,10 +73,10 @@ export function TechStackSection() {
         </div>
 
         {/* Row 2 (Reverse) */}
-        <div className="w-full mb-6">
-          <div className="flex gap-6 marquee-reverse" style={{ cursor: 'grab' }}>
+        <div className="w-full mb-4 md:mb-6">
+          <div className="flex gap-4 md:gap-6 marquee-reverse" style={{ cursor: 'grab' }}>
             {[...Array(2)].map((_, setIndex) => (
-              <div key={setIndex} className="flex gap-6 shrink-0">
+              <div key={setIndex} className="flex gap-4 md:gap-6 shrink-0">
                 {row2.map((tech, i) => (
                   <div key={`${tech.name}-rev-${setIndex}-${i}`} className="w-fit shrink-0 flex items-center justify-center py-2.5 px-5 bg-white rounded-lg border border-zinc-200 shadow-sm hover:shadow-md transition-shadow">
                     <div className="flex flex-row-reverse items-center gap-2.5">
@@ -95,9 +95,9 @@ export function TechStackSection() {
 
         {/* Row 3 */}
         <div className="w-full">
-          <div className="flex gap-6 marquee" style={{ cursor: 'grab' }}>
+          <div className="flex gap-4 md:gap-6 marquee" style={{ cursor: 'grab' }}>
             {[...Array(2)].map((_, setIndex) => (
-              <div key={setIndex} className="flex gap-6 shrink-0">
+              <div key={setIndex} className="flex gap-4 md:gap-6 shrink-0">
                 {row3.map((tech, i) => (
                   <div key={`${tech.name}-${setIndex}-${i}`} className="w-fit shrink-0 flex items-center justify-center py-2.5 px-5 bg-white rounded-lg border border-zinc-200 shadow-sm hover:shadow-md transition-shadow">
                     <div className="flex flex-row items-center gap-2.5">

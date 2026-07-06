@@ -1,11 +1,68 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { format } from "date-fns";
+import { Calendar as CalendarIcon, Loader2, AlertCircle, CheckCircle2, Mail, MapPin, Phone } from "lucide-react";
+
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+const formSchema = z.object({
+  name: z.string().min(2, {
+    message: "Name must be at least 2 characters.",
+  }),
+  email: z.string().email({
+    message: "Please enter a valid work email.",
+  }),
+  date: z.date({
+    required_error: "A date is required for the meeting.",
+  }),
+  projectType: z.string({
+    required_error: "Please select a project type.",
+  }),
+  projectDescription: z.string().optional(),
+});
 
 export function ContactFormSection() {
   const [isVisible, setIsVisible] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitState, setSubmitState] = useState<"idle" | "success" | "error">("idle");
+  const [submitMessage, setSubmitMessage] = useState("");
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      projectDescription: "",
+    },
+  });
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -24,6 +81,40 @@ export function ContactFormSection() {
       if (element) observer.unobserve(element);
     };
   }, []);
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsSubmitting(true);
+    setSubmitState("idle");
+    setSubmitMessage("");
+
+    try {
+      const response = await fetch("/api/schedule", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          formType: "schedule_appointment",
+          ...values,
+        }),
+      });
+
+      const result = (await response.json().catch(() => null)) as { message?: string } | null;
+
+      if (!response.ok) {
+        throw new Error(result?.message || "Unable to submit your request.");
+      }
+
+      setSubmitState("success");
+      setSubmitMessage(result?.message || "Your request was sent successfully.");
+      form.reset();
+    } catch (error) {
+      setSubmitState("error");
+      setSubmitMessage(error instanceof Error ? error.message : "Unable to submit your request.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   return (
     <section id="contact-section" className="py-20 relative bg-background">
@@ -90,72 +181,164 @@ export function ContactFormSection() {
               isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"
             }`}
           >
-            <div className="bg-foreground/5 border border-foreground/10 rounded-3xl p-8 md:p-10">
-              <h3 className="text-2xl font-display text-foreground mb-6">Send us a message</h3>
-              <form className="flex flex-col gap-6" onSubmit={(e) => e.preventDefault()}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="flex flex-col gap-2">
-                    <label htmlFor="firstName" className="text-sm font-medium text-foreground">First Name</label>
-                    <input 
-                      type="text" 
-                      id="firstName" 
-                      className="bg-background border border-foreground/10 rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-[#4372F9] transition-colors"
-                      placeholder="John"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <label htmlFor="lastName" className="text-sm font-medium text-foreground">Last Name</label>
-                    <input 
-                      type="text" 
-                      id="lastName" 
-                      className="bg-background border border-foreground/10 rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-[#4372F9] transition-colors"
-                      placeholder="Doe"
-                    />
-                  </div>
-                </div>
+            <div className="bg-background shadow-lg border border-border rounded-3xl p-8 md:p-10">
+              <h3 className="text-2xl font-display text-foreground mb-2">Schedule a Call</h3>
+              <p className="text-muted-foreground mb-6">Pick a time that works for you. We'll send a calendar invite with a meeting link.</p>
+              
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
+                  {submitState !== "idle" && submitMessage ? (
+                    <div
+                      className={cn(
+                        "flex items-start gap-3 rounded-lg border px-4 py-3 text-sm",
+                        submitState === "success"
+                          ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+                          : "border-destructive/30 bg-destructive/10 text-destructive"
+                      )}
+                    >
+                      {submitState === "success" ? (
+                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
+                      ) : (
+                        <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                      )}
+                      <p>{submitMessage}</p>
+                    </div>
+                  ) : null}
 
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="email" className="text-sm font-medium text-foreground">Email Address</label>
-                  <input 
-                    type="email" 
-                    id="email" 
-                    className="bg-background border border-foreground/10 rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-[#4372F9] transition-colors"
-                    placeholder="john@company.com"
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Full Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Jane Doe" className="h-11 bg-muted/30 rounded-sm focus-visible:ring-0 focus-visible:ring-offset-0" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
 
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="services" className="text-sm font-medium text-foreground">What are you looking for?</label>
-                  <select 
-                    id="services" 
-                    className="bg-background border border-foreground/10 rounded-xl px-4 py-3 text-foreground focus:outline-none focus:border-[#4372F9] transition-colors appearance-none"
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Work Email</FormLabel>
+                        <FormControl>
+                          <Input placeholder="jane@company.com" type="email" className="h-11 bg-muted/30 rounded-sm focus-visible:ring-0 focus-visible:ring-offset-0" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="date"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-col">
+                          <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mt-1">Preferred Date</FormLabel>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <FormControl>
+                                <Button
+                                  variant={"outline"}
+                                  className={cn(
+                                    "w-full h-11 pl-3 text-left font-normal bg-muted/30 border-input rounded-sm focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0",
+                                    !field.value && "text-muted-foreground"
+                                  )}
+                                >
+                                  {field.value ? (
+                                    format(field.value, "MMM d, yyyy")
+                                  ) : (
+                                    <span>Pick a date</span>
+                                  )}
+                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                </Button>
+                              </FormControl>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0" align="start">
+                              <Calendar
+                                mode="single"
+                                selected={field.value}
+                                onSelect={field.onChange}
+                                disabled={(date) =>
+                                  date < new Date(new Date().setHours(0, 0, 0, 0))
+                                }
+                                initialFocus
+                              />
+                            </PopoverContent>
+                          </Popover>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="projectType"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mt-1">Project Type</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger className="w-full h-11 bg-muted/30 rounded-sm focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0">
+                                <SelectValue placeholder="Select type" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="web">Web Development</SelectItem>
+                              <SelectItem value="mobile">Mobile App</SelectItem>
+                              <SelectItem value="saas">SaaS Platform</SelectItem>
+                              <SelectItem value="cloud">Cloud / DevOps</SelectItem>
+                              <SelectItem value="uiux">UI/UX Design</SelectItem>
+                              <SelectItem value="other">Other</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  {form.watch("projectType") === "other" && (
+                    <FormField
+                      control={form.control}
+                      name="projectDescription"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mt-1">Project Description</FormLabel>
+                          <FormControl>
+                            <Textarea 
+                              placeholder="Tell us a little bit about your project..." 
+                              className="resize-none bg-muted/30 rounded-sm focus-visible:ring-0 focus-visible:ring-offset-0" 
+                              {...field} 
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
+
+                  <Button 
+                    type="submit" 
+                    disabled={isSubmitting}
+                    className="w-full h-12 rounded-full mt-6 bg-[#4372F9] text-white hover:bg-[#345ad4] font-medium transition-colors"
                   >
-                    <option value="" disabled selected>Select a service</option>
-                    <option value="web">Web Development</option>
-                    <option value="mobile">Mobile App Development</option>
-                    <option value="design">UI/UX Design</option>
-                    <option value="consulting">Tech Consulting</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="message" className="text-sm font-medium text-foreground">Project Details</label>
-                  <textarea 
-                    id="message" 
-                    rows={4}
-                    className="bg-background border border-foreground/10 rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-[#4372F9] transition-colors resize-none"
-                    placeholder="Tell us a little bit about your project and goals..."
-                  ></textarea>
-                </div>
-
-                <Button 
-                  size="lg" 
-                  className="w-full bg-[#4372F9] hover:bg-[#345ad4] text-white rounded-xl h-14 text-base font-medium transition-colors mt-2"
-                >
-                  Submit Inquiry
-                </Button>
-              </form>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Confirming...
+                      </>
+                    ) : (
+                      "Confirm Booking"
+                    )}
+                  </Button>
+                </form>
+              </Form>
             </div>
           </div>
 

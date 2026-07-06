@@ -69,7 +69,7 @@ export function ProductSection() {
         {/* Centered Top Heading */}
         <div className="flex items-center justify-center gap-4 mb-10 lg:mb-16">
           <div className="h-[1px] w-10 md:w-16 bg-zinc-300"></div>
-          <span className="text-[11px] md:text-xs font-bold text-zinc-500 uppercase tracking-[0.2em]">
+          <span className="text-[11px] md:text-xs font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 uppercase tracking-[0.2em]">
             OUR PRODUCT
           </span>
           <div className="h-[1px] w-10 md:w-16 bg-zinc-300"></div>
@@ -79,8 +79,8 @@ export function ProductSection() {
 
           {/* Left Column - Content */}
           <div>
-            <h2 className="text-2xl lg:text-4xl font-bold tracking-tight mb-3 leading-[1.1] text-zinc-900">
-              Intelligent Clinic Management<br /> Built for the <span className="text-blue-600">Future</span>
+            <h2 className="text-3xl sm:text-[clamp(2.5rem,4vw,3.5rem)] font-display leading-[1.1] tracking-tight mb-4 text-zinc-900">
+              Intelligent Clinic Management<br /> Built for the <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">Future</span>
             </h2>
 
             <p className="text-sm text-zinc-600 mb-6 max-w-xl leading-relaxed">

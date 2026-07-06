@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -40,6 +40,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { AlertCircle, CheckCircle2 } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -62,6 +63,10 @@ export function ScheduleModal() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitState, setSubmitState] = useState<
+    "idle" | "success" | "error"
+  >("idle");
+  const [submitMessage, setSubmitMessage] = useState("");
 
   const isOpen = searchParams.get("schedule") === "true";
 
@@ -70,6 +75,7 @@ export function ScheduleModal() {
     defaultValues: {
       name: "",
       email: "",
+      projectDescription: "",
     },
   });
 
@@ -80,17 +86,66 @@ export function ScheduleModal() {
     } else {
       params.delete("schedule");
       form.reset(); // Reset form when closing
+      setIsSubmitting(false);
+      setSubmitState("idle");
+      setSubmitMessage("");
     }
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    const nextUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
+    router.push(nextUrl, { scroll: false });
   };
+
+  useEffect(() => {
+    if (submitState !== "success") {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      onOpenChange(false);
+    }, 1200);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [submitState, onOpenChange]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log(values);
-    setIsSubmitting(false);
-    onOpenChange(false);
+    setSubmitState("idle");
+    setSubmitMessage("");
+
+    try {
+      const response = await fetch("/api/schedule", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          formType: "schedule_appointment",
+          ...values,
+        }),
+      });
+
+      const result = (await response.json().catch(() => null)) as
+        | { message?: string }
+        | null;
+
+      if (!response.ok) {
+        throw new Error(result?.message || "Unable to submit your request.");
+      }
+
+      setSubmitState("success");
+      setSubmitMessage(
+        result?.message || "Your request was sent successfully."
+      );
+      form.reset();
+    } catch (error) {
+      setSubmitState("error");
+      setSubmitMessage(
+        error instanceof Error
+          ? error.message
+          : "Unable to submit your request."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -110,6 +165,24 @@ export function ScheduleModal() {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
+            {submitState !== "idle" && submitMessage ? (
+              <div
+                className={cn(
+                  "flex items-start gap-3 rounded-lg border px-4 py-3 text-sm",
+                  submitState === "success"
+                    ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+                    : "border-destructive/30 bg-destructive/10 text-destructive"
+                )}
+              >
+                {submitState === "success" ? (
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
+                ) : (
+                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                )}
+                <p>{submitMessage}</p>
+              </div>
+            ) : null}
+
             <FormField
               control={form.control}
               name="name"

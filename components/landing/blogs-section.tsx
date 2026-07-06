@@ -14,17 +14,17 @@ import { blogs } from "@/lib/blogs-data";
 
 export function BlogsSection() {
   return (
-    <section className="py-24 lg:py-32 relative overflow-hidden bg-transparent border-y border-foreground/5 shadow-sm">
+    <section className="pt-10 pb-6 md:pt-24 md:pb-10 relative overflow-hidden bg-transparent border-y border-foreground/5 shadow-sm">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10">
 
         {/* Header */}
-        <div className="mb-16 md:mb-20">
+        <div className="mb-10 md:mb-16">
           <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground uppercase tracking-widest mb-4">
             <span className="w-8 h-px bg-foreground/30" />
             Our Blog
           </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display leading-[1.1] tracking-tight text-foreground">
-            Latest <span className="text-muted-foreground">Insights</span>
+          <h2 className="text-3xl sm:text-[clamp(2.5rem,4vw,3.5rem)] font-display leading-[1.1] tracking-tight text-zinc-900">
+            Latest <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">Insights</span>
           </h2>
         </div>
 
@@ -38,7 +38,7 @@ export function BlogsSection() {
           <CarouselContent className="-ml-4 md:-ml-6">
             {blogs.map((blog) => (
               <CarouselItem key={blog.id} className="pl-4 md:pl-6 md:basis-1/2 lg:basis-1/3">
-                <div className="group h-full flex flex-col rounded-3xl bg-background/50 border border-foreground/10 overflow-hidden hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+                <div className="group h-full flex flex-col rounded-2xl bg-background/50 border border-foreground/10 overflow-hidden hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
 
                   {/* Image Container */}
                   <div className="relative aspect-[4/3] overflow-hidden">
@@ -60,10 +60,6 @@ export function BlogsSection() {
 
                   {/* Content */}
                   <div className="p-6 md:p-8 flex flex-col flex-1">
-                    <div className="text-sm text-muted-foreground mb-4 font-mono">
-                      {blog.date}
-                    </div>
-
                     <h3 className="text-xl md:text-2xl font-bold leading-tight mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                       {blog.title}
                     </h3>
@@ -86,7 +82,7 @@ export function BlogsSection() {
           </CarouselContent>
 
           {/* Carousel Controls - Bottom Right */}
-          <div className="flex justify-end gap-4 mt-12 pr-2">
+          <div className="flex justify-end gap-4 mt-8 pr-2">
             <CarouselPrevious className="static transform-none h-12 w-12 rounded-full border-foreground/20 bg-background hover:bg-foreground hover:text-background flex items-center justify-center transition-colors" />
             <CarouselNext className="static transform-none h-12 w-12 rounded-full border-foreground/20 bg-background hover:bg-foreground hover:text-background flex items-center justify-center transition-colors" />
           </div>

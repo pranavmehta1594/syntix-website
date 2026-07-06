@@ -1,7 +1,8 @@
 "use client";
 
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Linkedin, Github, Instagram, Twitter } from "lucide-react";
 import { AnimatedWave } from "./animated-wave";
+import Image from "next/image";
 
 const footerLinks = {
   Services: [
@@ -31,10 +32,10 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { name: "LinkedIn", href: "#" },
-  { name: "GitHub", href: "#" },
-  { name: "Instagram", href: "#" },
-  { name: "X", href: "#" },
+  { name: "LinkedIn", href: "#", icon: Linkedin },
+  { name: "GitHub", href: "#", icon: Github },
+  { name: "Instagram", href: "#", icon: Instagram },
+  { name: "X", href: "#", icon: Twitter },
 ];
 
 export function FooterSection() {
@@ -48,30 +49,37 @@ export function FooterSection() {
       <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
         {/* Main Footer */}
         <div className="py-16 lg:py-24">
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-12 lg:gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-10 lg:gap-8">
             {/* Brand Column */}
             <div className="col-span-2">
-              <a href="/" className="inline-flex items-center gap-2 mb-6">
-                <span className="text-2xl font-display">Syntrix Technologies</span>
-                <span className="text-xs text-background/70 font-mono">TM</span>
+              <a href="/" className="inline-flex items-center gap-2 mb-6 relative w-72 h-20 md:w-80 md:h-24">
+                <Image
+                  src="/images/logo-new.png"
+                  alt="Syntrix Technologies"
+                  fill
+                  className="object-contain object-left brightness-0 invert"
+                />
               </a>
               <p className="text-background/70 leading-relaxed mb-8 max-w-xs">
-                Syntrix Technologies is a software development company specializing
+                SyntrixVerse is a software development company specializing
                 in custom web applications, mobile app development, SaaS products,
                 cloud solutions, DevOps, SEO, and digital transformation services.
               </p>
               {/* Social Links */}
-              <div className="flex gap-6">
-                {socialLinks.map((link) => (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    className="text-sm text-background/70 hover:text-background transition-colors flex items-center gap-1 group"
-                  >
-                    {link.name}
-                    <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-                  </a>
-                ))}
+              <div className="flex gap-4">
+                {socialLinks.map((link) => {
+                  const Icon = link.icon;
+                  return (
+                    <a
+                      key={link.name}
+                      href={link.href}
+                      className="w-10 h-10 rounded-full bg-background/5 border border-background/10 flex items-center justify-center text-background/70 hover:bg-background hover:text-foreground transition-all group"
+                      aria-label={link.name}
+                    >
+                      <Icon className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                    </a>
+                  );
+                })}
               </div>
             </div>
 
@@ -102,19 +110,8 @@ export function FooterSection() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="py-8 border-t border-background/20 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-background/70">
-            © 2026 Syntrix Technologies. All rights reserved.
-          </p>
-          <div className="flex items-center gap-6 text-sm text-background/70">
-            <a href="/privacy-policy" className="hover:text-background transition-colors">Privacy Policy</a>
-            <a href="/terms" className="hover:text-background transition-colors">Terms</a>
-            <a href="/faq" className="hover:text-background transition-colors">FAQ</a>
-            <span className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              Available for New Projects
-            </span>
-          </div>
+        <div className="py-8 border-t border-background/20 text-center text-sm text-background/70">
+          <p>© 2026 Syntrix Technologies. All rights reserved.</p>
         </div>
       </div>
     </footer>

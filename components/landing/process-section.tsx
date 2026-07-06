@@ -98,7 +98,7 @@ function ProcessCard({
 
   return (
     <div
-      className="lg:sticky mb-10"
+      className="sticky mb-10"
       style={{
         top: `calc(${STICK_BASE_PX}px + ${index * STACK_OFFSET_PX}px)`,
         zIndex: 10 + index,
@@ -107,13 +107,13 @@ function ProcessCard({
       <motion.article
 
         className="
-          relative overflow-hidden border border-white/10 bg-[#141416]
+          relative overflow-hidden rounded-3xl border border-white/10 bg-[#141416]
           shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_40px_80px_-24px_rgba(0,0,0,0.7)]
           transition-colors duration-300
           lg:grid lg:h-[480px] lg:grid-cols-2
         "
       >
-        <div className="relative overflow-hidden bg-[#111111] h-full flex items-center justify-center p-8">
+        <div className="relative overflow-hidden bg-[#111111] h-[250px] sm:h-[300px] lg:h-full w-full flex items-center justify-center p-0 lg:p-8">
           {step.animation}
         </div>
 
